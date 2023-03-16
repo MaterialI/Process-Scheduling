@@ -1,4 +1,3 @@
 #include <stdio.h>
-#incldue "list.h"
-#incldue "Queue.h"
-using namespace std;
+#include "list.h"
+#include "Queue.h"
