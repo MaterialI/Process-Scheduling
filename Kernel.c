@@ -1,3 +1,3 @@
-#include <iostream>
+#include <stdio.h>
 #incldue "Kernel.h"
-using namespace std;
+
