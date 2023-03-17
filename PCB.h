@@ -16,7 +16,7 @@ struct PCB
 //create a process Pass priority from a main file and pass static pid to the process 
 //(it will first increment the value and after assign it to the process)
 //the last argument will be the appropriate ready queue (high, medium, low)
-
+//
 PCB* createProcess(enum Priority, int&, Queue**);
 
 //F
@@ -27,5 +27,21 @@ PCB* forkProcess(PCB*,int&, Queue**);
 
 //K
 //kill the named process and remove it from the system.
-//pass the process, 
+//pass the process PID, and Queueueueueues
 void killProcess(int, Queue**);
+
+//E
+//exit 
+//killes, exterminates, obliterates the process
+//just pass the pointer
+void exitProcess(PCB*, Queue**);
+
+//Q
+//Time quantum
+//time quantum of running process expires.
+//what to pass: Pcb pointer and queues pointers
+void quantumProcess(PCB*, Queue**);
+
+//S
+//Send
+//send a message to another process - block until reply
