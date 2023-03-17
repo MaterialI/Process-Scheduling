@@ -4,6 +4,7 @@
 enum State {Running, Ready,  Blocked};
 enum Priority {High = 0, Medium = 1, Low = 2};
 
+
 struct PCB
 {
     enum State processState; 

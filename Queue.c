@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "list.h"
 #include "Queue.h"
+#include "PCB.h"
 
 // Desc Creates a new Queue
 
