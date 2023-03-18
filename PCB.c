@@ -11,7 +11,20 @@
 
 Process* createProcess(int pr, int* pid, Queue** Qs)
 {
-    Process* aNew = (Process*)
+    Process* aNew;
+    if(!( aNew = (Process*)malloc(sizeof(Process))))
+    {
+        return 0;
+    }
+    //to insert in the appropriate list
+    List_preprend(Qs[pr]->qList, aNew);
+    aNew->processPriority = pr;
+    if(!(aNew->incomingMessages = (List*)malloc(sizeof(List))))
+    {
+        return 0;
+    }
+    aNew->processState = Ready;
+    
 }
 
 
