@@ -59,9 +59,9 @@ Process* forkProcess(Process* current, unsigned int* pid, Queue** Qs)
 //pass the process PID, and Queueueueueues
 //in case of success, returns 0, failure returns -1
 
-int killProcess(unsigned int pid, Queue** Qs)
+int killProcess(Process* currentRunning, unsigned int pid, Queue** Qs, Queue** srQs)
 {
-    
+    searchReadyQueue(aQueue, pid);
 }
 
 
