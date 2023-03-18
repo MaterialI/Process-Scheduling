@@ -9,7 +9,7 @@
 //(it will first increment the value and after assign it to the process)
 //the last argument will be the appropriate ready queue (high, medium, low)
 
-Process* createProcess(short pr, int* pid, Queue** Qs)
+Process* createProcess(short pr, unsigned int* pid, Queue** Qs)
 {
     Process* aNew;
     if(!( aNew = (Process*)malloc(sizeof(Process))))
@@ -34,7 +34,7 @@ Process* createProcess(short pr, int* pid, Queue** Qs)
 //Attempting to Fork the "init" process should fail. 
 //what to pass: Pass the process to the fork function, pass the integer of current PID, pass the readyQueue corresponding to it;
 
-Process* forkProcess(Process* current, int* pid, Queue** Qs)
+Process* forkProcess(Process* current, unsigned int* pid, Queue** Qs)
 {
 
 }
@@ -45,7 +45,7 @@ Process* forkProcess(Process* current, int* pid, Queue** Qs)
 //pass the process PID, and Queueueueueues
 //in case of success, returns 0, failure returns -1
 
-int killProcess(int, Queue**);
+int killProcess(unsigned int, Queue**);
 
 
 //E
@@ -73,7 +73,7 @@ int quantumProcess(Process*, Queue**);
 //char *msg (nullterminated message string, 40 char max); 
 //in case of success, returns 0, failure returns -1
 
-int sendProcess(Process*, int sPID, char* msg);
+int sendProcess(Process*, unsigned int sPID, char* msg);
 
 
 //R
@@ -88,4 +88,4 @@ char* receiveProcess(Process*);
 //int pid (pid of process to make the reply to), char *msg 
 //(nullterminated reply string, 40 char max)
 
-int replyProcess(Process*, int rPID, char* msg);
+int replyProcess(Process*, unsigned int rPID, char* msg);

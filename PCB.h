@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include "list.h"
 #include "Queue.h"
+
 enum State {Running = 1, Ready =0,  Blocked =-1};
 enum Priority {High = 0, Medium = 1, Low = 2};
-
 
 typedef struct PCB Process;
 struct PCB
 {
     short processState; 
     int processPriority;
-    int PID; 
+    unsigned int PID; 
     List* incomingMessages;
 };
 
@@ -21,7 +21,7 @@ struct PCB
 //(it will first increment the value and after assign it to the process)
 //the last argument will be the appropriate ready queue (high, medium, low)
 
-Process* createProcess(short, int* , Queue**);
+Process* createProcess(short, unsigned int* , Queue**);
 
 
 //F
@@ -29,7 +29,7 @@ Process* createProcess(short, int* , Queue**);
 //Attempting to Fork the "init" process should fail. 
 //what to pass: Pass the process to the fork function, pass the integer of current PID, pass the readyQueue corresponding to it;
 
-Process* forkProcess(Process*, int* , Queue**);
+Process* forkProcess(Process*, unsigned int* , Queue**);
 
 
 //K
@@ -37,7 +37,7 @@ Process* forkProcess(Process*, int* , Queue**);
 //pass the process PID, and Queueueueueues
 //in case of success, returns 0, failure returns -1
 
-int killProcess(int, Queue**);
+int killProcess(unsigned int, Queue**);
 
 
 //E
@@ -65,7 +65,7 @@ int quantumProcess(Process*, Queue**);
 //char *msg (nullterminated message string, 40 char max); 
 //in case of success, returns 0, failure returns -1
 
-int sendProcess(Process*, int sPID, char* msg);
+int sendProcess(Process*, unsigned int sPID, char* msg);
 
 
 //R
@@ -80,4 +80,4 @@ char* receiveProcess(Process*);
 //int pid (pid of process to make the reply to), char *msg 
 //(nullterminated reply string, 40 char max)
 
-int replyProcess(Process*, int rPID, char* msg);
+int replyProcess(Process*, unsigned int rPID, char* msg);
