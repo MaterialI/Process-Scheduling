@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "Queue.h"
 #include "list.h"
 #include "PCB.h"
@@ -19,7 +20,7 @@ Process* createProcess(short pr, unsigned int* pid, Queue** Qs)
     //to insert in the appropriate list
     List_preprend(Qs[pr]->qList, aNew);
     aNew->processPriority = pr;
-    if(!(aNew->incomingMessages = (List*)malloc(sizeof(List))))
+    if(!(aNew->incomingMessages = (Queue*)malloc(sizeof(Queue))))
     {
         return 0;
     }
@@ -41,7 +42,15 @@ Process* forkProcess(Process* current, unsigned int* pid, Queue** Qs)
     {
         return 0;
     }
-    aNew
+    if(!(aNew->incomingMessages = (Queue*)malloc(sizeof(Queue))))
+    {
+        return 0;
+    }
+    List_preprend(Qs[current->processPriority]->qList, aNew);
+    aNew->PID = (*pid)++;
+    aNew->processPriority = current->processPriority;
+    aNew->processState = Ready;
+    return aNew;
 }
 
 
@@ -50,7 +59,7 @@ Process* forkProcess(Process* current, unsigned int* pid, Queue** Qs)
 //pass the process PID, and Queueueueueues
 //in case of success, returns 0, failure returns -1
 
-int killProcess(unsigned int, Queue**)
+int killProcess(unsigned int pid, Queue** Qs)
 {
 
 }
