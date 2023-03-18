@@ -36,6 +36,12 @@ int Enqueue(Queue* Q, void* pItem){
 // Desc: Removes from the head of the queue 
 // it assumes that the current item in the head is the head
 int Dequeue(Queue* Q){
+    List_first(Q->qList);
+    return List_remove(Q->qList);
+}
+
+// Desc: Remove the current item in the queue (supports the kill command) 
+int Dequeue_Current(Queue* Q){
     return List_remove(Q->qList);
 }
 

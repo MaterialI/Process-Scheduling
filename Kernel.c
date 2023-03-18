@@ -5,10 +5,11 @@
 
 
 Queue** Ready_Queues[3];
-Queue** Waiting_Queues[3]; 
-//PCB* Running;
-//Semaphore** Kernel_Semaphores[5];
-static unsigned int PID_counter  = 0;
+Queue** Waiting_Queues[2]; 
+Process* Running;
+Process* Init;
+S** Kernel_Semaphores[5];
+static unsigned int* PID_counter  = 0;
 
 
 void ErrorMessage(){
@@ -35,9 +36,18 @@ void ErrorMessage(){
 }
 
 
-int main(){
+int main(){ 
+
     // We create our 5 main queues 
-    char user_input;
+    Queue* qLow = Queue_create(); Queue* qNorm = Queue_create(); Queue* qHigh = Queue_create();
+    Queue* qReceive = Queue_create(); Queue* qSend = Queue_create();
+    Ready_Queues[Low] = qLow;
+    Ready_Queues[Medium] = qNorm;
+    Ready_Queues[High] = qHigh;
+    Waiting_Queues[High] = qReceive; 
+    Waiting_Queues[Low] = qSend;
+     Init = createProcess(2,PID_counter,qLow);
+    char* user_input;
 
         printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
 
@@ -117,5 +127,3 @@ int main(){
 	return 0;
 }
     
-
-}
