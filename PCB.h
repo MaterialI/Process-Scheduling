@@ -21,7 +21,7 @@ struct PCB
 //(it will first increment the value and after assign it to the process)
 //the last argument will be the appropriate ready queue (high, medium, low)
 
-Process* createProcess(enum Priority, int&, Queue**);
+Process* createProcess(enum Priority, int*, Queue**);
 
 
 //F
@@ -29,7 +29,7 @@ Process* createProcess(enum Priority, int&, Queue**);
 //Attempting to Fork the "init" process should fail. 
 //what to pass: Pass the process to the fork function, pass the integer of current PID, pass the readyQueue corresponding to it;
 
-Process* forkProcess(Process*,int&, Queue**);
+Process* forkProcess(Process*,int*, Queue**);
 
 
 //K
