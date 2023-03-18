@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include "list.h"
 #include "Queue.h"
-enum State {Running, Ready,  Blocked};
+enum State {Running = 1, Ready =0,  Blocked =-1};
 enum Priority {High = 0, Medium = 1, Low = 2};
 
 
 typedef struct PCB Process;
 struct PCB
 {
-    State processState; 
+    short processState; 
     int processPriority;
     int PID; 
     List* incomingMessages;

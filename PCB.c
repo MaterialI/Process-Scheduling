@@ -9,7 +9,10 @@
 //(it will first increment the value and after assign it to the process)
 //the last argument will be the appropriate ready queue (high, medium, low)
 
-Process* createProcess(enum Priority pr, int* pid, Queue** Qs)
+Process* createProcess(int pr, int* pid, Queue** Qs)
+{
+    Process* aNew = (Process*)
+}
 
 
 //F
