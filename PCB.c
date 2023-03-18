@@ -9,7 +9,7 @@
 //(it will first increment the value and after assign it to the process)
 //the last argument will be the appropriate ready queue (high, medium, low)
 
-Process* createProcess(int pr, int* pid, Queue** Qs)
+Process* createProcess(short pr, int* pid, Queue** Qs)
 {
     Process* aNew;
     if(!( aNew = (Process*)malloc(sizeof(Process))))
@@ -24,7 +24,8 @@ Process* createProcess(int pr, int* pid, Queue** Qs)
         return 0;
     }
     aNew->processState = Ready;
-    
+    aNew->PID = (*pid)++;
+    return aNew;
 }
 
 
@@ -33,7 +34,10 @@ Process* createProcess(int pr, int* pid, Queue** Qs)
 //Attempting to Fork the "init" process should fail. 
 //what to pass: Pass the process to the fork function, pass the integer of current PID, pass the readyQueue corresponding to it;
 
-Process* forkProcess(Process*, int* , Queue**);
+Process* forkProcess(Process* current, int* pid, Queue** Qs)
+{
+
+}
 
 
 //K

@@ -21,7 +21,7 @@ struct PCB
 //(it will first increment the value and after assign it to the process)
 //the last argument will be the appropriate ready queue (high, medium, low)
 
-Process* createProcess(int, int* , Queue**);
+Process* createProcess(short, int* , Queue**);
 
 
 //F
