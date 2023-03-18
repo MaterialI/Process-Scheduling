@@ -6,11 +6,11 @@ kernel: Queue.o Semaphore.o PCB.o  list.o
 Queue.o: Queue.h Queue.c list.o  
 	gcc -Wall -c Queue.h Queue.c list.o 
 
-PCB.o: PCB.h PCB.c list.o  
-	gcc -Wall -c PCB.h PCB.c list.o
+PCB.o: PCB.h PCB.c   
+	gcc -Wall -c PCB.h PCB.c 
 
-Semaphore.o: Semaphore.h Semaphore.c Semaphore.o  
-	gcc -Wall -c Semaphore.h Semaphore.c list.o
+Semaphore.o: Semaphore.h Semaphore.c   
+	gcc -Wall -c Semaphore.h Semaphore.c 
 
 clean: 
 	rm -f *.o
