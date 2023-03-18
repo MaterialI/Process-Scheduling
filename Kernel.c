@@ -47,7 +47,7 @@ int main(){
     Waiting_Queues[High] = qReceive; 
     Waiting_Queues[Low] = qSend;
      Init = createProcess(2,PID_counter,qLow);
-    char* user_input;
+    char user_input;
 
         printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
 
