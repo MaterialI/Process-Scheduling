@@ -6,12 +6,8 @@ kernel: PCB.o Queue.o Semaphore.o  list.o
 Queue.o: Queue.h Queue.c list.o  
 	gcc -Wall -c Queue.h Queue.c list.o 
 
-<<<<<<< HEAD
 
-=======
-PCB.o: PCB.h PCB.c   
-	gcc -Wall -c PCB.h PCB.c 
->>>>>>> 200b64bb8f21ec6ed10f8ae2614c0a4a66142547
+
 
 Semaphore.o: Semaphore.h Semaphore.c   
 	gcc -Wall -c Semaphore.h Semaphore.c 
