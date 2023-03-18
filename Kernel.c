@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "Kernel.h"
 #include "Queue.h"
 #include "PCB.h"
 #include "Semaphore.h"
