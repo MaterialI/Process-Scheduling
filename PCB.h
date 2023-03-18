@@ -8,8 +8,8 @@ enum Priority {High = 0, Medium = 1, Low = 2};
 typedef struct PCB Process;
 struct PCB
 {
-    enum State processState; 
-    enum Priority processPriority;
+    State processState; 
+    int processPriority;
     int PID; 
     List* incomingMessages;
 };
@@ -21,7 +21,7 @@ struct PCB
 //(it will first increment the value and after assign it to the process)
 //the last argument will be the appropriate ready queue (high, medium, low)
 
-Process* createProcess(enum Priority, int* , Queue**);
+Process* createProcess(int, int* , Queue**);
 
 
 //F
