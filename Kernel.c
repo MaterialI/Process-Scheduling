@@ -12,7 +12,28 @@ Queue** Waiting_Queues[3];
 static unsigned int PID_counter  = 0;
 
 
+void ErrorMessage(){
 
+    printf("Wrong Input\n\n");
+    printf("Skull Crashing Fault!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1\n  Wrong input\n");
+   FILE *fp;
+   char* ch;
+   fp = fopen("fault.txt", "r"); // read mode
+
+   if (fp == NULL)
+   {
+      perror("Error while opening the file.\n");
+      return;
+   }
+
+   
+
+   while((ch = fgetc(fp)) != EOF)
+      printf("%c", ch);
+
+   fclose(fp);
+   return ;
+}
 
 
 int main(){
@@ -23,6 +44,8 @@ int main(){
     Ready_Queues[2] = Low; Ready_Queues[1] = Norm; Ready_Queues[0] = High;
     Waiting_Queues[0] = Waiting_Receive; Waiting_Queues[1] = Waiting_Sender;
     char user_input;
+
+        printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
 
     //PCB* init_kernel(Low , Ready_Queues , PID_counter++);
 
@@ -83,14 +106,17 @@ int main(){
             // Code for V Semaphore
                 break;
             case 'I':
-            // 
+            //  Code Procinfo
                 break;
             case 'T':
+            // Code for Totalinfo
                 break;
 
 			default:
-				printf("Wrong Input\n\n");
-                printf("Dog Fault");!!!!!	
+				
+            ErrorMessage();
+
+
 				break;
 		}
 	}
