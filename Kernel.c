@@ -37,11 +37,6 @@ void ErrorMessage(){
 
 int main(){
     // We create our 5 main queues 
-    Queue* Low = Queue_create(); Queue* Norm = Queue_create(); Queue* High = Queue_create(); 
-    Queue* Waiting_Receive = Queue_create(); Queue* Waiting_Sender = Queue_create(); 
-
-    Ready_Queues[2] = Low; Ready_Queues[1] = Norm; Ready_Queues[0] = High;
-    Waiting_Queues[0] = Waiting_Receive; Waiting_Queues[1] = Waiting_Sender;
     char user_input;
 
         printf("Welocme to the Shift it Shift0.1 Operating System\n\n");

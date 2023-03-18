@@ -12,7 +12,7 @@
 Process* createProcess(short pr, unsigned int* pid, Queue** Qs)
 {
     Process* aNew;
-    if(!( aNew = (Process*)malloc(sizeof(Process))))
+    if(!(aNew = (Process*)malloc(sizeof(Process))))
     {
         return 0;
     }
@@ -36,7 +36,12 @@ Process* createProcess(short pr, unsigned int* pid, Queue** Qs)
 
 Process* forkProcess(Process* current, unsigned int* pid, Queue** Qs)
 {
-
+    Process* aNew;
+    if(!(aNew = (Process*)malloc(sizeof(Process))))
+    {
+        return 0;
+    }
+    aNew
 }
 
 
@@ -45,7 +50,10 @@ Process* forkProcess(Process* current, unsigned int* pid, Queue** Qs)
 //pass the process PID, and Queueueueueues
 //in case of success, returns 0, failure returns -1
 
-int killProcess(unsigned int, Queue**);
+int killProcess(unsigned int, Queue**)
+{
+
+}
 
 
 //E
