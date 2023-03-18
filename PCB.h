@@ -5,6 +5,7 @@ enum State {Running, Ready,  Blocked};
 enum Priority {High = 0, Medium = 1, Low = 2};
 
 
+typedef struct PCB Process;
 struct PCB
 {
     enum State processState; 
@@ -20,7 +21,7 @@ struct PCB
 //(it will first increment the value and after assign it to the process)
 //the last argument will be the appropriate ready queue (high, medium, low)
 
-PCB* createProcess(enum Priority, int&, Queue**);
+Process* createProcess(enum Priority, int&, Queue**);
 
 
 //F
@@ -28,7 +29,7 @@ PCB* createProcess(enum Priority, int&, Queue**);
 //Attempting to Fork the "init" process should fail. 
 //what to pass: Pass the process to the fork function, pass the integer of current PID, pass the readyQueue corresponding to it;
 
-PCB* forkProcess(PCB*,int&, Queue**);
+Process* forkProcess(Process*,int&, Queue**);
 
 
 //K
@@ -45,33 +46,33 @@ int killProcess(int, Queue**);
 //what to pass: just pass the pointer and the array of queues
 //in case of success, returns 0, failure returns -1
 
-int exitProcess(PCB*, Queue**);
+int exitProcess(Process*, Queue**);
 
 
 //Q
 //Time quantum
 //time quantum of running process expires.
-//what to pass: Pcb pointer and queues pointers
+//what to pass: Process pointer and queues pointers
 //in case of success, returns 0, failure returns -1
 
-int quantumProcess(PCB*, Queue**);
+int quantumProcess(Process*, Queue**);
 
 
 //S
 //Send
 //send a message to another process - block until reply
-//what to pass: Pointer to current PCB, pid (pid of process to send message to), 
+//what to pass: Pointer to current Process, pid (pid of process to send message to), 
 //char *msg (nullterminated message string, 40 char max); 
 //in case of success, returns 0, failure returns -1
 
-int sendProcess(PCB*, int sPID, char* msg);
+int sendProcess(Process*, int sPID, char* msg);
 
 
 //R
 //Receive
 //receive a message - block until one arrives
 
-char* receiveProcess(PCB*);
+char* receiveProcess(Process*);
 
 
 //Y
@@ -79,4 +80,4 @@ char* receiveProcess(PCB*);
 //int pid (pid of process to make the reply to), char *msg 
 //(nullterminated reply string, 40 char max)
 
-int replyProcess(PCB*, int rPID, char* msg);
+int replyProcess(Process*, int rPID, char* msg);
