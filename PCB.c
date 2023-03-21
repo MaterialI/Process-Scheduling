@@ -110,7 +110,7 @@ int exitProcess(Process* current, Queue** Qs)
     {
         return -1;
     }
-    
+    //do we put another process from waiting queue to the running state?.
 }
 
 
