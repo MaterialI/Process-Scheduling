@@ -61,8 +61,35 @@ Process* forkProcess(Process* current, unsigned int* pid, Queue** Qs)
 //pass the process PID, and Queueueueueues
 //in case of success, returns 0, failure returns -1
 
-int killProcess(unsigned int pid, Queue** Qs)
+int killProcess(Process* currentRunning, unsigned int pid, Queue** Qs, Queue** srQs)
 {
+    if(currentRunning->PID == pid)
+    {
+        currentRunning->processState = Blocked;
+        free(currentRunning);
+        currentRunning = Dequeue(Qs);  //dequeue has to return the ptr to returned obj
+        currentRunning ->processState = Running;
+        //to what queue do we add?
+    }
+    Node* current = searchReadyQueue(Qs, pid, 3);
+    if(current != 0){
+        List_remove(Qs);
+        free(current);
+    }   
+    else
+    {
+        current = searchReadyQueue(srQs, pid, 2);
+        if(current !=0)
+        {
+            List_remove(srQs);
+            free(current);    
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    return 0;
     
 }
 
@@ -73,7 +100,20 @@ int killProcess(unsigned int pid, Queue** Qs)
 //what to pass: just pass the pointer and the array of queues
 //in case of success, returns 0, failure returns -1
 
-int exitProcess(Process*, Queue**);
+int exitProcess(Process* current, Queue** Qs)
+{
+    if(current != 0)
+    {    
+        current->processState = Blocked;
+        free(current);
+        return 0;
+    }
+    else
+    {
+        return -1;
+    }
+    //do we put another process from waiting queue to the running state?.
+}
 
 
 //Q

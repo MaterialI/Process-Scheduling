@@ -37,7 +37,7 @@ Process* forkProcess(Process*, unsigned int* , Queue**);
 //pass the process PID, and Queueueueueues
 //in case of success, returns 0, failure returns -1
 
-int killProcess(unsigned int, Queue**);
+int killProcess(Process*, unsigned int, Queue**, Queue**);
 
 
 //E

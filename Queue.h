@@ -29,12 +29,12 @@ int Enqueue(Queue* Q, void* pItem);
 
 
 // Desc: Removes from the head of the queue 
-int Dequeue(Queue* Q);
+void* Dequeue(Queue* Q);
 
 
 
 // Desc: Remove the current item in the queue (supports the kill command) 
-int Dequeue_Current(Queue* Q);
+void* Dequeue_Current(Queue* Q);
 
 
 // Delete Queue. pItemFreeFn is a pointer to a routine that frees an item. 
