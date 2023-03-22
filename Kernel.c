@@ -44,13 +44,8 @@ int main(){
     Ready_Queues[Medium] = qNorm;
     Ready_Queues[High] = qHigh;
     Waiting_Queues[High] = qReceive; 
-<<<<<<< HEAD
-    Waiting_Queues[Medium] = qSend;
-     Init = createProcess(2,PID_counter,qLow);
-=======
     Waiting_Queues[Low] = qSend;
      Init = createProcess(2,&PID_counter,qLow);
->>>>>>> f81c5e5fee660e04cb8b272863a579e32fd2cee5
     char user_input;
 
         printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
@@ -99,17 +94,7 @@ int main(){
 
 			case 'E':
             // Code for Exit 
-<<<<<<< HEAD
-                break;
-            case 'Q':
-                // Code for Quantum
-
-                    // Running == Quantum 
-                    // Running == init , if  Quatumm == Null
-                break;
-=======
                 continue;
->>>>>>> f81c5e5fee660e04cb8b272863a579e32fd2cee5
 
 			case 'S':
             // Code for Send

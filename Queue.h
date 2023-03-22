@@ -62,6 +62,6 @@ void* Quues_Head(Queue** Q , int size);
 void Print_Queue(Queue* Q);
 
 
-void Print_Queues(Queue** Q , int size)
+void Print_Queues(Queue** Q , int size);
 
 #endif

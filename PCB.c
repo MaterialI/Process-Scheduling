@@ -63,7 +63,11 @@ Process* forkProcess(Process* current, unsigned int* pid, Queue** Qs)
     {
         return 0;
     }
-    if(!(aNew->incomingMessages = (Queue*)malloc(sizeof(Queue))))
+    if(!(aNew->incomingMessagesReceived = (Queue*)malloc(sizeof(Queue))))
+    {
+        return 0;
+    }
+     if(!(aNew->incomingMessagesReplied = (Queue*)malloc(sizeof(Queue))))
     {
         return 0;
     }
