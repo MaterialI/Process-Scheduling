@@ -18,7 +18,7 @@ struct Queue_ADT{
 
 // Desc Creates a new Queue
 
-List* Queue_create();
+Queue* Queue_create();
 
 //Desc: Returns the count of elements in the Queue
 
