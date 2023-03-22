@@ -4,6 +4,12 @@
 #include "list.h"
 #include "PCB.h"
 
+
+
+//!!!!!!!!Found a bug in search queues. It doesn't return the right node. Searching each Queue sepereatly is the better method 
+
+
+
 //takes a ptr to the element and returns the true if the element pointed at by the ptr
 //and the int
 int comparePCBs(Process* toFind, int pid)
@@ -142,7 +148,7 @@ int killProcess(Process* currentRunning, unsigned int pid, Queue** Qs, Queue** s
 int exitProcess(Process* current, Queue** Qs)
 {
     if(current != 0)
-    {    
+    {   
         current->processState = Blocked;
         free(current);
         return 0;
@@ -151,7 +157,7 @@ int exitProcess(Process* current, Queue** Qs)
     {
         return -1;
     }
-    //do we put another process from waiting queue to the running state?. // yes
+    //do we put another process from waiting queue to the running state?. // yes but in the kernel
 }
 
 
