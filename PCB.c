@@ -101,7 +101,7 @@ int killProcess(Process* currentRunning, unsigned int pid, Queue** Qs, Queue** s
         return 0;
         
     }
-    Process* currentP = Queue_search(Qs[1],comparePCBs , 3);
+    Process* currentP = Queue_search(Qs[1],comparePCBs , 3); // ******Testing line  // Search each Queue seperatly
     Process* toRemove;
     if(currentP != 0){
         //List_remove(Qs);
