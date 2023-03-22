@@ -5,13 +5,13 @@
 
 // Desc Creates a new Queue
 
-List* Queue_create(){
+Queue* Queue_create(){
     List* qList = List_create();
     if(qList == NULL) return NULL;
     Queue* newQueue = malloc(sizeof(newQueue));
     if(newQueue != NULL) return NULL;
     newQueue->qList = qList;
-    return qList;
+    return newQueue;
 }
 
 
