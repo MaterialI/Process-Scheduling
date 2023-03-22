@@ -9,7 +9,7 @@ Queue* Queue_create(){
     List* qList = List_create();
     if(qList == NULL) return NULL;
     Queue* newQueue = malloc(sizeof(newQueue)); // To Do : Add the malloc check 
-    if(newQueue != NULL) return NULL;
+    if(newQueue == NULL) return NULL;
     newQueue->qList = qList;
     return newQueue;
 }

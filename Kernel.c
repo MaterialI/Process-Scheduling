@@ -49,24 +49,26 @@ int main(){
     Waiting_Queues[Low] = qSend;
     Init = createProcess(2,&PID_counter,1);
     char user_input;
-
-        printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
-    //PCB* init_kernel(Low , Ready_Queues , PID_counter++);
-    // printf( "\n\nCOMMANDS"
-	// 	 "\nC. Create"
-	// 	 "\nF. Fork"
-	// 	"\nK. Kill"
-	// 	 "\nE. Exit"
-    //      "\n Q. Quantum"
-	// 	 "\nS. Send"
-	// 	 "\nR. Receive"
-    //      "\nY. Reply"
-    //     "\nN. New Semaphore"
-    //     "\nP. Sempahore P"
-    //     "\nV. Sempahore V"
-    //     "\nI. Procinfo"
-    //     "\nT. Totalinfo"
-    //      );
+    int prior;
+    
+    printf("%d",Init->PID);
+    printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
+        
+    printf( "\n\nCOMMANDS"
+		 "\nC. Create"
+		 "\nF. Fork"
+		"\nK. Kill"
+		 "\nE. Exit"
+         "\n Q. Quantum"
+		 "\nS. Send"
+		 "\nR. Receive"
+         "\nY. Reply"
+        "\nN. New Semaphore"
+        "\nP. Sempahore P"
+        "\nV. Sempahore V"
+        "\nI. Procinfo"
+        "\nT. Totalinfo"
+         );
 
     	while(1)
 	{
@@ -74,27 +76,14 @@ int main(){
 
        printf("\n\nEnter your command:\n");
         user_input = getc(stdin);
-    // swallow the '\n'
     getc(stdin);
-		
-        int prior; 
-        printf("Give the Process priority");
-        // scanf("%d", prior);
-        // printf("%d", prior);
-        printf("%d", PID_counter);
-        printf("WHAT");
-        createProcess(0, &PID_counter, 1);
-        printf("%d",Init->PID);
-				
 
 		switch(user_input)	{
 			case 'C':
                 // Code for Create
-                // int prior;
-                // printf("Give the Process priority");
-                // scanf("%d", prior);
-                //createProcess(prior, )
-                printf("%d",Init->PID);
+                printf("Enter the Process priority\n");
+                 scanf("%d", &prior);
+                createProcess(prior,&PID_counter , Ready_Queues );        
 				break;
 
 			case 'F':
