@@ -67,7 +67,7 @@ int killProcess(Process* currentRunning, unsigned int pid, Queue** Qs, Queue** s
         free(currentRunning);
         currentRunning = Dequeue(Qs);  //dequeue has to return the ptr to returned obj
         currentRunning ->processState = Running;
-        //to what queue do we add?
+        
     }
     Node* current = searchReadyQueue(Qs, pid, 3);
     if(current != 0){
