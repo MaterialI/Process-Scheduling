@@ -10,7 +10,7 @@ struct Semaphore
 {
     int id;
     int value;
-    Queue* waitingOnSem;
+    Queue** waitingOnSem;
 };
 
 //Initialize the named semaphore with the value given. ID's can take a value
@@ -19,10 +19,10 @@ void* newSemaphore(int,int);
 
 //if value of the semaphore is <0 after testing and decrementing, we add the process to the waiting list
 //and change the status of the process. 
-void P(S*, Process*);
+void P(S**, Process*, int);
 
 //when called, increases the value. If it becomes non-negative it allowes the first element on the list to become 
 //active and remove from waiting list.
-void* V(S**, int);
+void* V(S**,Queue**, Process*, int);
 
 #endif

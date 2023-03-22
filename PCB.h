@@ -10,7 +10,8 @@ struct PCB
     short processState; 
     int processPriority;
     unsigned int PID; 
-    Queue* incomingMessages;
+    Queue* incomingMessagesReceived;
+    Queue* incomingMessagesReplied;
 };
 
 
