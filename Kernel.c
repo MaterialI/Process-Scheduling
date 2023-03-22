@@ -48,6 +48,8 @@ int main(){
     Waiting_Queues[High] = qReceive; 
     Waiting_Queues[Low] = qSend;
     Init = createProcess(2,&PID_counter,1);
+
+    Current_Running = Init;
     char user_input;
     int prior;
     
@@ -75,19 +77,22 @@ int main(){
 		
 
        printf("\n\nEnter your command:\n");
-        user_input = getc(stdin);
-    getc(stdin);
+       char user_input;
+        scanf(" %c", &user_input);
 
 		switch(user_input)	{
 			case 'C':
                 // Code for Create
                 printf("Enter the Process priority\n");
                  scanf("%d", &prior);
-                createProcess(prior,&PID_counter , Ready_Queues );        
+                  createProcess(prior,&PID_counter , Ready_Queues );    
+                 if(Current_Running == Init){Current_Running ==Next_Running_Process(Ready_Queues , 3); }
 				break;
 
 			case 'F':
             // Code for Fork
+            printf("Fork\n");
+            forkProcess(Current_Running, &PID_counter, Ready_Queues);
                 break;
 
 			case 'K':

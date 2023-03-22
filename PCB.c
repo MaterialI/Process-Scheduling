@@ -269,3 +269,11 @@ void Totalinfo (Queue** Ready_Queue  , Queue** Waiting_Queue ){
     Print_Queues(Ready_Queue, 3);
     Print_Queues(Waiting_Queue , 2);
 }
+
+
+
+// Function will return the next running prcess from thre ready queues
+
+Process* Next_Running_Process(Queue** Ready_Queue , int size){
+    return Quues_Head(Ready_Queue , size);
+}

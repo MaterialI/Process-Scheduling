@@ -86,4 +86,7 @@ int replyProcess(Process*, unsigned int rPID, char* msg ,Queue* Senders_Blocked)
 int Procinfo (int PID , Queue**  , Queue** );
 
 void  Totalinfo (Queue**  , Queue** );
+
+
+Process* Next_Running_Process(Queue** Ready_Queue , int size);
 #endif
