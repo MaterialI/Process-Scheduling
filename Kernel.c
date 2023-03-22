@@ -31,6 +31,7 @@ void ErrorMessage(){
       printf("%c", ch);
 
    fclose(fp);
+   printf("\n\n");
    return ;
 }
 
@@ -45,7 +46,7 @@ int main(){
     Ready_Queues[High] = qHigh;
     Waiting_Queues[High] = qReceive; 
     Waiting_Queues[Low] = qSend;
-     Init = createProcess(2,&PID_counter,qLow);
+     //Init = createProcess(2,&PID_counter,qLow);
     char user_input;
 
         printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
@@ -64,14 +65,16 @@ int main(){
         "\nV. Sempahore V"
         "\nI. Procinfo"
         "\nT. Totalinfo"
-         "\n\nEnter your choice: ");
+         );
 
     	while(1)
 	{
 		
 
-       // printf("enter new message\n");
-        scanf("%d",user_input);
+       printf("\n\nEnter your command:\n");
+        user_input = getc(stdin);
+    // swallow the '\n'
+    getc(stdin);
 		
 
 		switch(user_input)	{
@@ -81,46 +84,46 @@ int main(){
                 // printf("Give the Process priority");
                 // scanf("%d", prior);
                 //createProcess(prior, )
-                         printf("%d",Init->PID);
-				continue;
+                printf("%d",Init->PID);
+				break;
 
 			case 'F':
             // Code for Fork
-                continue;
+                break;
 
 			case 'K':
             // Code for Kill
-                continue;
+                break;
 
 			case 'E':
             // Code for Exit 
-                continue;
+                break;
 
 			case 'S':
             // Code for Send
-				continue;
+				break;
 
 			case 'R':
             // Code for Receive 
-				continue;
+				break;
             case 'Y':
             // Reply
-                continue;
+                break;
             case 'N':
             // Code for new Semaphore
-                continue;
+                break;
             case 'P':
             // Code for P Semaphore
-                continue;
+                break;
             case 'V':
             // Code for V Semaphore
-                continue;
+                break;
             case 'I':
             //  Code Procinfo
-                continue;
+                break;
             case 'T':
             // Code for Totalinfo
-                continue;
+                break;
 
 			default:
                 ErrorMessage();
