@@ -4,6 +4,18 @@
 #include "list.h"
 #include "PCB.h"
 
+//takes a ptr to the element and returns the true if the element pointed at by the ptr
+//and the int
+int comparePCBs(Process* toFind, int pid)
+{
+    if(toFind->PID  == pid)
+    {
+        return true;
+    }
+    else 
+        return false;
+}
+
 //C
 //create a process 
 //what to pass: Pass priority from a main file and pass static pid to the process 
@@ -70,22 +82,32 @@ int killProcess(Process* currentRunning, unsigned int pid, Queue** Qs, Queue** s
         
     }
     Process* currentP = Queues_search(Qs,3,comparePCBs, pid);
+    Process* toRemove;
     if(currentP != 0){
         //List_remove(Qs);
-        Process* toRemove = Dequeue_Current(Qs[currentP->processPriority]);
+        toRemove = Dequeue_Current(Qs[currentP->processPriority]);
         if(toRemove == 0)
         {
             return -1;
         }
         free(toRemove);
     }   
-    else
+    else //the search is splitted into 2 subsearches to distinguish the queues, where we found the element;
     {
-        currentP = searchReadyQueue(srQs, pid, 2);
+        int qInd = 0;
+        currentP = Queue_search(srQs[0],comparePCBs, pid);
+        Process* currentP1 = Queue_search(srQs[1], comparePCBs, pid);
+        if(currentP1 != 0)
+        {
+            qInd = 1;
+            currentP = currentP1;
+        }
         if(currentP !=0)
         {
+
+            toRemove = Dequeue_Current(srQs[qInd]);
            // List_remove(srQs);
-            free(currentP);    
+            free(toRemove);    
         }
         else
         {
@@ -129,7 +151,8 @@ int quantumProcess(Process* running, Queue** Ready_Queues)
 {
      running->processState = Ready;
     Enqueue(Ready_Queues[running->processPriority],running);
-    running = Dequeue()
+    //running = Dequeue()
+    return 0;
 }
 
 
@@ -159,14 +182,3 @@ int replyProcess(Process*, unsigned int rPID, char* msg);
 
 
 
-//takes a ptr to the element and returns the true if the element pointed at by the ptr
-//and the int
-int comparePCBs(Process* toFind, int pid)
-{
-    if(toFind->PID  == pid)
-    {
-        return true;
-    }
-    else 
-        return false;
-}
