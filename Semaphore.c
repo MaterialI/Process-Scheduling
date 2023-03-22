@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "list.h"
-#include "PCB.h"
 #include "Semaphore.h"
 
 void* newSemaphore(int ID, int val)
