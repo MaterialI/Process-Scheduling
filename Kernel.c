@@ -6,7 +6,7 @@
 
 Queue** Ready_Queues[3];
 Queue** Waiting_Queues[2]; 
-Process* Running;
+Process* Current_Running;
 Process* Init;
 S** Kernel_Semaphores[5];
 static unsigned int* PID_counter  = 0;
@@ -14,7 +14,6 @@ static unsigned int* PID_counter  = 0;
 
 void ErrorMessage(){
 
-    printf("Wrong Input\n\n");
     printf("Skull Crashing Fault!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1\n  Wrong input\n");
    FILE *fp;
    char* ch;
