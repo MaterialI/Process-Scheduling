@@ -12,6 +12,7 @@
 // Queue Struct 
 typedef struct Queue_ADT Queue;
 struct Queue_ADT{
+    
     List* qList;
 };
 
@@ -46,6 +47,8 @@ void Queue_free(Queue* Q, FREE_FN pItemFreeFn);
 // Searches for an item in a  Queue. pComparisonArg is a pointer to a routine that compares an item. 
 typedef bool (*COMPARATOR_FN)(void* pItem, void* pComparisonArg);
 void* Queue_search(Queue* Q, COMPARATOR_FN pComparator, void* pComparisonArg);
+
+
 
 
 #endif

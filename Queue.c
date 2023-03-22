@@ -15,6 +15,9 @@ Queue* Queue_create(){
 }
 
 
+
+
+
 // Desc Returns the list inisde the Queue. Shoud be static so that the list is protected 
 
 static List* Get_List(Queue* Q){
@@ -59,3 +62,27 @@ typedef bool (*COMPARATOR_FN)(void* pItem, void* pComparisonArg);
 void* Queue_search(Queue* Q, COMPARATOR_FN pComparator, void* pComparisonArg){
     return List_search(Q->qList ,pComparator, pComparisonArg);
 }
+
+// Desc: Searches for an item in an array of queues 
+
+typedef bool (*COMPARATOR_FN)(void* pItem, void* pComparisonArg);
+void* Queues_search(Queue** Q, int size, COMPARATOR_FN pComparator, void* pComparisonArg){
+    for(int i = 0 ; i < size ; i++){
+        Queue_search(Q[i] , pComparator , pComparisonArg);
+    }
+}
+
+
+
+// Desc: Removes the first Item in an array of Queues and returns it 
+
+void* Quues_Head(Queue** Q , int size){
+    void* item; 
+    for(int i = 0 ; i < size ; i++){
+        item = Dequeue(Q[i]);
+        if(item != NULL){return item;}
+    }
+}
+
+
+

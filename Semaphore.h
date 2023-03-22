@@ -1,7 +1,9 @@
 #include <stdio.h>
-#include "list.h"
 #include "PCB.h"
 #include "Queue.h"
+
+#ifndef _SEMAPHORE_H_
+#define _SEMAPHORE_H
 
 typedef struct Semaphore S;
 struct Semaphore
@@ -22,3 +24,5 @@ void P(S*, Process*);
 //when called, increases the value. If it becomes non-negative it allowes the first element on the list to become 
 //active and remove from waiting list.
 void* V(S**, int);
+
+#endif
