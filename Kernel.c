@@ -45,7 +45,7 @@ int main(){
     Ready_Queues[High] = qHigh;
     Waiting_Queues[High] = qReceive; 
     Waiting_Queues[Low] = qSend;
-     Init = createProcess(2,&PID_counter,qLow);
+     Init = createProcess(2,&PID_counter,1);
     char user_input;
 
         printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
@@ -70,9 +70,15 @@ int main(){
 	{
 		
 
-       // printf("enter new message\n");
-        scanf("%d",user_input);
+        printf("enter new message\n");
+        //scanf("%c",user_input);
 		
+        int prior; 
+        printf("Give the Process priority");
+        scanf("%d", prior);
+        createProcess(prior, PID_counter, Ready_Queues);
+        printf("%d",Init->PID);
+				
 
 		switch(user_input)	{
 			case 'C':
@@ -80,8 +86,8 @@ int main(){
                 // int prior;
                 // printf("Give the Process priority");
                 // scanf("%d", prior);
-                //createProcess(prior, )
-                         printf("%d",Init->PID);
+                // createProcess(prior, PID_counter, Ready_Queues);
+                // printf("%d",Init->PID);
 				continue;
 
 			case 'F':

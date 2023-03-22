@@ -101,8 +101,7 @@ for (int i = 0 ; i < size; i++){
 
 }
 
-
-static void Print_List(List* plist){
+void Print_List(List* plist){
 Node* current = plist->pFirstNode; 
 int i = 0 ;
     while (current != NULL)
