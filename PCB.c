@@ -70,18 +70,23 @@ int killProcess(Process* currentRunning, unsigned int pid, Queue** Qs, Queue** s
         currentRunning ->processState = Running;
         
     }
-    Node* current = searchReadyQueue(Qs, pid, 3);
-    if(current != 0){
+    Process* currentP = Queues_search(Qs,3,comparePCBs, pid);
+    if(currentP != 0){
         //List_remove(Qs);
-        free(current);
+        Process* toRemove = Dequeue_Current(Qs[currentP->processPriority]);
+        if(toRemove == 0)
+        {
+            return -1;
+        }
+        free(toRemove);
     }   
     else
     {
-        current = searchReadyQueue(srQs, pid, 2);
-        if(current !=0)
+        currentP = searchReadyQueue(srQs, pid, 2);
+        if(currentP !=0)
         {
            // List_remove(srQs);
-            free(current);    
+            free(currentP);    
         }
         else
         {
@@ -125,6 +130,7 @@ int quantumProcess(Process* running, Queue** Ready_Queues)
 {
      running->processState = Ready;
     Enqueue(Ready_Queues[running->processPriority],running);
+    running = Dequeue()
 }
 
 
@@ -151,3 +157,17 @@ char* receiveProcess(Process*);
 //(nullterminated reply string, 40 char max)
 
 int replyProcess(Process*, unsigned int rPID, char* msg);
+
+
+
+//takes a ptr to the element and returns the true if the element pointed at by the ptr
+//and the int
+int comparePCBs(Process* toFind, int pid)
+{
+    if(toFind->PID  == pid)
+    {
+        return true;
+    }
+    else 
+        return false;
+}
