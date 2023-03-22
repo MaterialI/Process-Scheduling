@@ -18,8 +18,7 @@ Process* createProcess(short pr, unsigned int* pid, Queue** Qs)
         return 0;
     }
     //to insert in the appropriate list
-    //List_preprend(Qs[pr]->qList, aNew);
-
+   // List_preprend(Qs[pr]->qList, aNew);
     aNew->processPriority = pr;
     if(!(aNew->incomingMessages = (Queue*)malloc(sizeof(Queue))))
     {
@@ -47,7 +46,7 @@ Process* forkProcess(Process* current, unsigned int* pid, Queue** Qs)
     {
         return 0;
     }
-    //List_preprend(Qs[current->processPriority]->qList, aNew);
+   // List_preprend(Qs[current->processPriority]->qList, aNew);
     aNew->PID = (*pid)++;
     aNew->processPriority = current->processPriority;
     aNew->processState = Ready;
