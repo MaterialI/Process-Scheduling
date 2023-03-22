@@ -9,7 +9,7 @@ Queue** Waiting_Queues[2];
 Process* Current_Running;
 Process* Init;
 S** Kernel_Semaphores[5];
-static unsigned int* PID_counter  = 0;
+static unsigned int  PID_counter = 0;
 
 
 void ErrorMessage(){
@@ -44,17 +44,18 @@ int main(){
     Ready_Queues[Medium] = qNorm;
     Ready_Queues[High] = qHigh;
     Waiting_Queues[High] = qReceive; 
+<<<<<<< HEAD
     Waiting_Queues[Medium] = qSend;
      Init = createProcess(2,PID_counter,qLow);
+=======
+    Waiting_Queues[Low] = qSend;
+     Init = createProcess(2,&PID_counter,qLow);
+>>>>>>> f81c5e5fee660e04cb8b272863a579e32fd2cee5
     char user_input;
 
         printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
-
     //PCB* init_kernel(Low , Ready_Queues , PID_counter++);
-
-    	while(1)
-	{
-		printf( "\n\nCOMMANDS"
+    printf( "\n\nCOMMANDS"
 		 "\nC. Create"
 		 "\nF. Fork"
 		"\nK. Kill"
@@ -70,24 +71,35 @@ int main(){
         "\nT. Totalinfo"
          "\n\nEnter your choice: ");
 
-
-        scanf("%c",user_input);
+    	while(1)
+	{
 		
+
+       // printf("enter new message\n");
+        scanf("%d",user_input);
+		
+
 		switch(user_input)	{
 			case 'C':
                 // Code for Create
-				break;
+                // int prior;
+                // printf("Give the Process priority");
+                // scanf("%d", prior);
+                //createProcess(prior, )
+                         printf("%d",Init->PID);
+				continue;
 
 			case 'F':
             // Code for Fork
-                break;
+                continue;
 
 			case 'K':
             // Code for Kill
-                break;
+                continue;
 
 			case 'E':
             // Code for Exit 
+<<<<<<< HEAD
                 break;
             case 'Q':
                 // Code for Quantum
@@ -95,36 +107,38 @@ int main(){
                     // Running == Quantum 
                     // Running == init , if  Quatumm == Null
                 break;
+=======
+                continue;
+>>>>>>> f81c5e5fee660e04cb8b272863a579e32fd2cee5
 
 			case 'S':
             // Code for Send
-				break;
+				continue;
 
 			case 'R':
             // Code for Receive 
-				break;
+				continue;
             case 'Y':
             // Reply
-                break;
+                continue;
             case 'N':
             // Code for new Semaphore
-                break;
+                continue;
             case 'P':
             // Code for P Semaphore
-                break;
+                continue;
             case 'V':
             // Code for V Semaphore
-                break;
+                continue;
             case 'I':
             //  Code Procinfo
-                break;
+                continue;
             case 'T':
             // Code for Totalinfo
-                break;
+                continue;
 
 			default:
-				
-            ErrorMessage();
+                ErrorMessage();
 
 
 				break;
