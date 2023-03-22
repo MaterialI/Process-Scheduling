@@ -11,7 +11,7 @@ struct PCB
     int processPriority;
     unsigned int PID; 
     Queue* incomingMessagesReceived;
-    Queue* incomingMessagesReplied;
+    Queue* incomingMessagesReplied; 
 };
 
 
@@ -55,7 +55,7 @@ int exitProcess(Process*, Queue**);
 //what to pass: Process pointer and queues pointers
 //in case of success, returns 0, failure returns -1
 
-int quantumProcess(Process*, Queue**);
+void* quantumProcess(Process*, Queue**);
 
 
 //S
@@ -65,14 +65,14 @@ int quantumProcess(Process*, Queue**);
 //char *msg (nullterminated message string, 40 char max); 
 //in case of success, returns 0, failure returns -1
 
-int sendProcess(Process*, unsigned int sPID, char* msg);
+int sendProcess(Queue** Ready_Queues , Queue** Waiting_Queues ,  Process* running, unsigned int sPID, char* msg);
 
 
 //R
 //Receive
 //receive a message - block until one arrives
 
-char* receiveProcess(Process*);
+void receiveProcess(Process* running , Queue** Waiting_Queues);
 
 
 //Y
@@ -80,4 +80,8 @@ char* receiveProcess(Process*);
 //int pid (pid of process to make the reply to), char *msg 
 //(nullterminated reply string, 40 char max)
 
-int replyProcess(Process*, unsigned int rPID, char* msg);
+int replyProcess(Process*, unsigned int rPID, char* msg ,Queue* Senders_Blocked);
+
+int Procinfo (int PID , Queue**  , Queue** );
+
+void  Totalinfo (Queue**  , Queue** );

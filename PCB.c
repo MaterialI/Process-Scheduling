@@ -156,12 +156,14 @@ int exitProcess(Process* current, Queue** Qs)
 //what to pass: Process pointer and queues pointers
 //in case of success, returns 0, failure returns -1
 
-int quantumProcess(Process* running, Queue** Ready_Queues)
+void* quantumProcess(Process* running, Queue** Ready_Queues)
 {
-     running->processState = Ready;
+     running->processState = Ready; // First we change the process 
     Enqueue(Ready_Queues[running->processPriority],running);
-    //running = Dequeue()
-    return 0;
+    running = Quues_Head(Ready_Queues , 3);  // Put this routine in some funciton
+    if(running != NULL)
+        running->processState = Running;
+    return running;
 }
 
 
@@ -172,14 +174,57 @@ int quantumProcess(Process* running, Queue** Ready_Queues)
 //char *msg (nullterminated message string, 40 char max); 
 //in case of success, returns 0, failure returns -1
 
-int sendProcess(Process*, unsigned int sPID, char* msg);
+int sendProcess(Queue** Ready_Queues , Queue** Waiting_Queues ,  Process* running, unsigned int sPID, char* msg){
+   
+   // Case 1 : The process is blocked on receive 
+
+   // This code should be refactored !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   // Add the return current function 
+
+    Process* sP = Queue_search(Waiting_Queues[0] , comparePCBs , sPID); 
+    if (sP  != NULL){
+        sP == Dequeue_Current(Waiting_Queues[0]);
+        sP->processState == Ready; 
+        Enqueue(Ready_Queues[sP->processPriority] , sP);
+        return 0 ;
+    } 
+
+    // Case 2  : The process is not on the receive queue //(blocked on send queue)
+    else if (sP == NULL){
+         sP = Queue_search(Waiting_Queues[1] , comparePCBs , sPID);  
+         if(sP != NULL){
+             Enqueue(Ready_Queues[sP->processPriority] , sP);
+             return 0 ;
+         }
+    }
+
+    else {    // The process is in the ready state 
+        sP = Queues_search(Ready_Queues , 3, comparePCBs , sPID);
+        if(sP != NULL){
+            Enqueue(Ready_Queues[sP->processPriority] , sP);
+            return 0 ;
+        }
+        else {
+            // Send faild 
+            return -1;
+        }
+    }
+}
 
 
 //R
 //Receive
 //receive a message - block until one arrives
 
-char* receiveProcess(Process*);
+void receiveProcess(Process* running , Queue** Waiting_Queues){
+    if(running->incomingMessagesReceived->qList->count == 0){
+        Enqueue(Waiting_Queues[0] , running);  // If we haven't received everthing. We just put the process on the ready queue 
+    }
+    else {  // if not then we remove the first element on the icomming messages queue and display it
+        char* msg = Dequeue(running->incomingMessagesReceived);
+        printf("Incomming Message : msg\n\n");
+    }
+}
 
 
 //Y
@@ -187,7 +232,50 @@ char* receiveProcess(Process*);
 //int pid (pid of process to make the reply to), char *msg 
 //(nullterminated reply string, 40 char max)
 
-int replyProcess(Process*, unsigned int rPID, char* msg);
+int replyProcess(Process* running , unsigned int rPID, char* msg , Queue* Senders_Blocked){
+    Process* Ps = Queue_search(Senders_Blocked , comparePCBs , rPID);
+    if(Ps == NULL){return -1;} //reply fails}
+    else {
+        Ps = Dequeue_Current(Senders_Blocked);
+        Enqueue(Ps->incomingMessagesReplied,msg); 
+        return 0 ; 
+        // To do : Check if the message is greater then 40 
+    }
+}
 
 
 
+//takes a ptr to the element and returns the true if the element pointed at by the ptr
+//and the int
+int comparePCBs(Process* toFind, int pid)
+{
+    if(toFind->PID  == pid)
+    {
+        return true;
+    }
+    else 
+        return false;
+}
+
+
+int Procinfo (int PID , Queue** Ready_Queues , Queue** Waiting_Queues){
+    Process* sPID = Queues_search(Ready_Queues  , 3, comparePCBs,PID);
+    if(sPID == NULL){
+        sPID = Queues_search(Waiting_Queues , 2 , comparePCBs , PID);
+    }
+    
+    if(sPID != NULL){
+        printf("%d" , sPID->processState);
+        return 0 ;
+    }
+    else {
+        return -1;
+    }
+    
+}
+
+
+void Totalinfo (Queue** Ready_Queue  , Queue** Waiting_Queue ){
+    Print_Queues(Ready_Queue, 3);
+    Print_Queues(Waiting_Queue , 2);
+}

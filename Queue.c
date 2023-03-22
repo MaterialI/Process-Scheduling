@@ -8,7 +8,7 @@
 Queue* Queue_create(){
     List* qList = List_create();
     if(qList == NULL) return NULL;
-    Queue* newQueue = malloc(sizeof(newQueue));
+    Queue* newQueue = malloc(sizeof(newQueue)); // To Do : Add the malloc check 
     if(newQueue != NULL) return NULL;
     newQueue->qList = qList;
     return newQueue;
@@ -82,7 +82,34 @@ void* Quues_Head(Queue** Q , int size){
         item = Dequeue(Q[i]);
         if(item != NULL){return item;}
     }
+
+    return NULL;
+}
+
+void Print_Queue(Queue* Q){
+    
+ Print_List(Q->qList);
+
 }
 
 
+void Print_Queues(Queue** Q , int size){
 
+for (int i = 0 ; i < size; i++){
+    Print_List(Q[i]->qList);
+}
+
+}
+
+
+static void Print_List(List* plist){
+Node* current = plist->pFirstNode; 
+int i = 0 ;
+    while (current != NULL)
+{
+    printf("%d ",current->pItem);
+    current = current->pNext;
+    i++;
+}
+
+}
