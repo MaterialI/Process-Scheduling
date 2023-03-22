@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "Queue.h"
-
+#ifndef _PCB_H_
+#define _PCB_H_
 enum State {Running = 1, Ready =0,  Blocked =-1};
 enum Priority {High = 0, Medium = 1, Low = 2};
 
@@ -85,3 +86,4 @@ int replyProcess(Process*, unsigned int rPID, char* msg ,Queue* Senders_Blocked)
 int Procinfo (int PID , Queue**  , Queue** );
 
 void  Totalinfo (Queue**  , Queue** );
+#endif

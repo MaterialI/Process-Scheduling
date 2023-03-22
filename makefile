@@ -13,4 +13,5 @@ PCB.o: PCB.c
 	gcc -Wall -c  PCB.c 
 
 clean: 
-	rm -f *.o
+	find . -name "*.o" | grep -v "list.o" | xargs rm
+

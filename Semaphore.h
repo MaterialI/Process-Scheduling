@@ -3,7 +3,7 @@
 #include "Queue.h"
 
 #ifndef _SEMAPHORE_H_
-#define _SEMAPHORE_H
+#define _SEMAPHORE_H_
 
 typedef struct Semaphore S;
 struct Semaphore
