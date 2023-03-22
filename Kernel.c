@@ -71,6 +71,11 @@ int main(){
         "\nI. Procinfo"
         "\nT. Totalinfo"
          );
+          createProcess(0,&PID_counter , Ready_Queues );    
+        if(Current_Running == Init)
+        {Current_Running ==Next_Running_Process(Ready_Queues , 3); }
+        Process* new = createProcess(1,&PID_counter , Ready_Queues );
+          killProcess(Current_Running , 3, Ready_Queues , Waiting_Queues);
 
     	while(1)
 	{
@@ -97,6 +102,7 @@ int main(){
 
 			case 'K':
             // Code for Kill
+            killProcess(Current_Running , &PID_counter , Ready_Queues , Waiting_Queues);
                 break;
 
 			case 'E':

@@ -42,7 +42,8 @@ Process* createProcess(short pr, unsigned int* pid, Queue** Qs)
         return 0;
     }
     aNew->processState = Ready;
-    aNew->PID = (*pid)++;
+    (*pid)++;
+    aNew->PID = (*pid);
     if(Qs != 1)
     {
         Enqueue(Qs[pr], aNew);
@@ -90,11 +91,11 @@ int killProcess(Process* currentRunning, unsigned int pid, Queue** Qs, Queue** s
     {
         currentRunning->processState = Blocked;
         free(currentRunning);
-        currentRunning = Dequeue(Qs);  //dequeue has to return the ptr to returned obj
-        currentRunning ->processState = Running;
+        currentRunning = Next_Running_Process(Qs , 3);  // This routine will get the next running process
+        return 0;
         
     }
-    Process* currentP = Queues_search(Qs,3,comparePCBs, pid);
+    Process* currentP = Queue_search(Qs[1],comparePCBs , 3);
     Process* toRemove;
     if(currentP != 0){
         //List_remove(Qs);
@@ -150,7 +151,7 @@ int exitProcess(Process* current, Queue** Qs)
     {
         return -1;
     }
-    //do we put another process from waiting queue to the running state?.
+    //do we put another process from waiting queue to the running state?. // yes
 }
 
 
@@ -275,5 +276,10 @@ void Totalinfo (Queue** Ready_Queue  , Queue** Waiting_Queue ){
 // Function will return the next running prcess from thre ready queues
 
 Process* Next_Running_Process(Queue** Ready_Queue , int size){
-    return Quues_Head(Ready_Queue , size);
+    Process* Next =  Quues_Head(Ready_Queue , size);
+    if(Next == NULL){return NULL;}
+    else {
+        Next->processState = Running;
+        return Next;
+    }
 }

@@ -68,8 +68,9 @@ void* Queue_search(Queue* Q, COMPARATOR_FN pComparator, void* pComparisonArg){
 typedef bool (*COMPARATOR_FN)(void* pItem, void* pComparisonArg);
 void* Queues_search(Queue** Q, int size, COMPARATOR_FN pComparator, void* pComparisonArg){
     for(int i = 0 ; i < size ; i++){
-        Queue_search(Q[i] , pComparator , pComparisonArg);
+       if( Queue_search(Q[i] , pComparator , pComparisonArg) != NULL){return Q[i]->qList->pCurrentNode;}
     }
+    return NULL;
 }
 
 
@@ -80,7 +81,8 @@ void* Quues_Head(Queue** Q , int size){
     void* item; 
     for(int i = 0 ; i < size ; i++){
         item = Dequeue(Q[i]);
-        if(item != NULL){return item;}
+        if(item != NULL)
+        {return item;}
     }
 
     return NULL;
