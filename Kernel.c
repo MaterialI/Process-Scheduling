@@ -44,7 +44,7 @@ int main(){
     Ready_Queues[Medium] = qNorm;
     Ready_Queues[High] = qHigh;
     Waiting_Queues[High] = qReceive; 
-    Waiting_Queues[Low] = qSend;
+    Waiting_Queues[Medium] = qSend;
      Init = createProcess(2,PID_counter,qLow);
     char user_input;
 
@@ -59,6 +59,7 @@ int main(){
 		 "\nF. Fork"
 		"\nK. Kill"
 		 "\nE. Exit"
+         "\n Q. Quantum"
 		 "\nS. Send"
 		 "\nR. Receive"
          "\nY. Reply"
@@ -87,6 +88,12 @@ int main(){
 
 			case 'E':
             // Code for Exit 
+                break;
+            case 'Q':
+                // Code for Quantum
+
+                    // Running == Quantum 
+                    // Running == init , if  Quatumm == Null
                 break;
 
 			case 'S':

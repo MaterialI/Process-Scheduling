@@ -12,7 +12,7 @@
 // Queue Struct 
 typedef struct Queue_ADT Queue;
 struct Queue_ADT{
-    
+
     List* qList;
 };
 
@@ -50,5 +50,18 @@ void* Queue_search(Queue* Q, COMPARATOR_FN pComparator, void* pComparisonArg);
 
 
 
+// Desc: Searches for an item in an array of queues 
+
+typedef bool (*COMPARATOR_FN)(void* pItem, void* pComparisonArg);
+void* Queues_search(Queue** Q, int size, COMPARATOR_FN pComparator, void* pComparisonArg);
+
+// Desc: Removes the first Item in an array of Queues and returns it 
+void* Quues_Head(Queue** Q , int size);
+
+
+void Print_Queue(Queue* Q);
+
+
+void Print_Queues(Queue** Q , int size)
 
 #endif
