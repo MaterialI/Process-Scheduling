@@ -1,6 +1,9 @@
 #include <stdio.h>
-#include "list.h"
+#include <stdlib.h>
 #include "Queue.h"
+#ifndef _PCB_H_
+#define _PCB_H_
+
 
 enum State {Running = 1, Ready =0,  Blocked =-1};
 enum Priority {High = 0, Medium = 1, Low = 2};
@@ -37,7 +40,7 @@ Process* forkProcess(Process*, unsigned int* , Queue**);
 //pass the process PID, and Queueueueueues
 //in case of success, returns 0, failure returns -1
 
-int killProcess(Process*, unsigned int, Queue**, Queue**);
+int killProcess(unsigned int, Queue**);
 
 
 //E
@@ -63,9 +66,11 @@ int quantumProcess(Process*, Queue**);
 //send a message to another process - block until reply
 //what to pass: Pointer to current Process, pid (pid of process to send message to), 
 //char *msg (nullterminated message string, 40 char max); 
-//in case of success, returns 0, failure returns -1
+//in case of success, returns 0, failure returns -1 
 
-int sendProcess(Process*, unsigned int sPID, char* msg);
+
+
+int sendProcess(Process*, unsigned int sPID, char* msg , Queue*);
 
 
 //R
@@ -81,3 +86,6 @@ char* receiveProcess(Process*);
 //(nullterminated reply string, 40 char max)
 
 int replyProcess(Process*, unsigned int rPID, char* msg);
+
+
+#endif

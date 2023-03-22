@@ -1,19 +1,16 @@
 all: kernel
 
-kernel: PCB.o Queue.o Semaphore.o  list.o 
-	gcc -Wall -o kernel Queue.o Semaphore.o PCB.o  list.o  Kernel.c
+kernel: PCB.o Queue.o Semaphore.o  Queue.o list.o
+	gcc -Wall -o kernel Queue.o Semaphore.o PCB.o list.o Kernel.c
 
-Queue.o: Queue.h Queue.c list.o  
-	gcc -Wall -c Queue.h Queue.c list.o 
+Queue.o:  Queue.c  
+	gcc -Wall -c Queue.c 
 
+Semaphore.o:  Semaphore.c 
+	gcc -Wall -c Semaphore.c 
 
-
-
-Semaphore.o: Semaphore.h Semaphore.c   
-	gcc -Wall -c Semaphore.h Semaphore.c 
-
-PCB.o: PCB.h PCB.c list.o  
-	gcc -Wall -c PCB.h PCB.c list.o
+PCB.o: PCB.c 
+	gcc -Wall -c  PCB.c 
 
 clean: 
 	rm -f *.o
