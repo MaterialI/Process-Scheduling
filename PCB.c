@@ -18,7 +18,8 @@ Process* createProcess(short pr, unsigned int* pid, Queue** Qs)
         return 0;
     }
     //to insert in the appropriate list
-    List_preprend(Qs[pr]->qList, aNew);
+    //List_preprend(Qs[pr]->qList, aNew);
+
     aNew->processPriority = pr;
     if(!(aNew->incomingMessages = (Queue*)malloc(sizeof(Queue))))
     {
@@ -46,7 +47,7 @@ Process* forkProcess(Process* current, unsigned int* pid, Queue** Qs)
     {
         return 0;
     }
-    List_preprend(Qs[current->processPriority]->qList, aNew);
+    //List_preprend(Qs[current->processPriority]->qList, aNew);
     aNew->PID = (*pid)++;
     aNew->processPriority = current->processPriority;
     aNew->processState = Ready;
@@ -71,7 +72,7 @@ int killProcess(Process* currentRunning, unsigned int pid, Queue** Qs, Queue** s
     }
     Node* current = searchReadyQueue(Qs, pid, 3);
     if(current != 0){
-        List_remove(Qs);
+        //List_remove(Qs);
         free(current);
     }   
     else
@@ -79,7 +80,7 @@ int killProcess(Process* currentRunning, unsigned int pid, Queue** Qs, Queue** s
         current = searchReadyQueue(srQs, pid, 2);
         if(current !=0)
         {
-            List_remove(srQs);
+           // List_remove(srQs);
             free(current);    
         }
         else
@@ -120,7 +121,11 @@ int exitProcess(Process* current, Queue** Qs)
 //what to pass: Process pointer and queues pointers
 //in case of success, returns 0, failure returns -1
 
-int quantumProcess(Process*, Queue**);
+int quantumProcess(Process* running, Queue** Ready_Queues)
+{
+     running->processState = Ready;
+    Enqueue(Ready_Queues[running->processPriority],running);
+}
 
 
 //S
