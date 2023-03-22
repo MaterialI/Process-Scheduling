@@ -248,20 +248,6 @@ int replyProcess(Process* running , unsigned int rPID, char* msg , Queue* Sender
 }
 
 
-
-//takes a ptr to the element and returns the true if the element pointed at by the ptr
-//and the int
-int comparePCBs(Process* toFind, int pid)
-{
-    if(toFind->PID  == pid)
-    {
-        return true;
-    }
-    else 
-        return false;
-}
-
-
 int Procinfo (int PID , Queue** Ready_Queues , Queue** Waiting_Queues){
     Process* sPID = Queues_search(Ready_Queues  , 3, comparePCBs,PID);
     if(sPID == NULL){
