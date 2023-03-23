@@ -50,7 +50,7 @@ Process* createProcess(short pr, unsigned int* pid, Queue** Qs)
     aNew->processState = Ready;
     (*pid)++;
     aNew->PID = (*pid);
-    printf("current pr %d:", pr);
+   // printf("current pr %d:", pr);
     if(Qs != 1)
     {
         Enqueue(Qs[pr], aNew);
@@ -171,13 +171,13 @@ int exitProcess(Process* current, Queue** Qs)
 
 void* quantumProcess(Process* running, Queue** Ready_Queues)
 {
-    printf("quantum process");
+    //printf("quantum process");
     running->processState = Ready; // First we change the process 
-    printf("quantum process");
-    printf("queantumProcess pr %d", running->processPriority);
+   // printf("quantum process");
+    //printf("queantumProcess pr %d", running->processPriority);
     Enqueue(Ready_Queues[running->processPriority],running);
     running = Quues_Head(Ready_Queues , 3);  // Put this routine in some funciton
-    printf("\nthe next_running_process pid:%d", running->PID);
+    //printf("\nthe next_running_process pid:%d", running->PID);
 
     if(running != NULL)
     {
@@ -243,7 +243,7 @@ void receiveProcess(Process* running , Queue** Waiting_Queues){
     }
     else {  // if not then we remove the first element on the icomming messages queue and display it
         char* msg = Dequeue(running->incomingMessagesReceived);
-        printf("Incomming Message : msg\n\n");
+       //printf("Incomming Message : msg\n\n");
     }
 }
 
@@ -272,7 +272,7 @@ int Procinfo (int PID , Queue** Ready_Queues , Queue** Waiting_Queues){
     }
     
     if(sPID != NULL){
-        printf("%d" , sPID->processState);
+        //printf("%d" , sPID->processState);
         return 0 ;
     }
     else {
@@ -299,7 +299,7 @@ Process* Next_Running_Process(Queue** Ready_Queue , int size){
     }
     else 
     {
-        printf("\nthe next_running_process pid:%d", Next->PID);
+        //printf("\nthe next_running_process pid:%d", Next->PID);
         Next->processState = Running;
         return Next;
     }

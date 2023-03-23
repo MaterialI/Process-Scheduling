@@ -47,6 +47,10 @@ int main(){
     Ready_Queues[High] = qHigh;
     Waiting_Queues[High] = qReceive; 
     Waiting_Queues[Low] = qSend;
+    // for(int i =0;i<5;i++)
+    // {
+    //     Kernel_Semaphores[i] = malloc(sizeof(Semaphore));
+    // }
     Init = createProcess(2,&PID_counter,1);
 
     Current_Running = Init;
@@ -73,17 +77,17 @@ int main(){
          );
 
          //***testing 
-        createProcess(1,&PID_counter , Ready_Queues );
+        createProcess(2,&PID_counter , Ready_Queues );
         if(Current_Running == Init){
             Current_Running =Next_Running_Process(Ready_Queues , 3);
         }
         createProcess(2,&PID_counter , Ready_Queues );
         createProcess(2,&PID_counter , Ready_Queues );
-        printf("SHEESh");
-        printf("\n%d",Current_Running->PID);  
-        printf("what");  
-        Current_Running = quantumProcess(Current_Running, Ready_Queues);
-        printf("\n%d",Current_Running->PID);
+        createProcess(2, &PID_counter, Ready_Queues);
+        newSemaphore(Kernel_Semaphores,0, 1);
+        P(Kernel_Semaphores, Ready_Queues, Current_Running, 0);
+        P(Kernel_Semaphores, Ready_Queues, Current_Running, 0);
+        V(Kernel_Semaphores, Ready_Queues, Current_Running, 0);
 
          // killProcess(Current_Running , 3, Ready_Queues , Waiting_Queues);
         //***testing

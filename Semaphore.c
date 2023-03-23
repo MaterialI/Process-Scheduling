@@ -2,33 +2,30 @@
 #include "list.h"
 #include "Semaphore.h"
 
-void* newSemaphore(int ID, int val)
+S* newSemaphore(S** semaphors, int ID, int val)
 {
-    S* anew;
-    if(!(anew = (S*)malloc(sizeof(S))))
+    if(!(semaphors[ID] = (S*)malloc(sizeof(S))))
     {
         return 0;
     }
-    anew->id = ID;
-    anew->value = val;
-    return anew;
+    semaphors[ID]->id = ID;
+    semaphors[ID]->value = val;
+    semaphors[ID]->waitingOnSem = malloc(sizeof(Queue*)*3);
+    for(int i =0;i<3; i++)
+        semaphors[ID]->waitingOnSem[i] = Queue_create() ;
+    return semaphors[ID];
 }
 
 //if value of the semaphore is <0 after testing and decrementing, we add the process to the waiting list
 //and change the status of the process. 
-void P(S** semaphors, Process* pr, int id)
+void P(S** semaphors, Queue** Qs, Process* pr, int id)
 {
-    S* Semaphore = semaphors[id];
-    //what happens to the waiting on sem processes????
-    //which state are they?
-    //if they are ready, are they stored on the ready queue?
-    //if not, whare are they stored?
-    //thus we need to have a unified queue, needn't we?
-    Semaphore->value--;
-    if(Semaphore->value < 0)
+    semaphors[id]->value--;
+    if(semaphors[id]->value < 0)
     {
         pr->processState = Blocked;
-        Enqueue(Semaphore->waitingOnSem[pr->PID], pr);
+        Enqueue(semaphors[id]->waitingOnSem[pr->processPriority], pr);
+        pr = Quues_Head(Qs, 3);
     }
 }
 
@@ -36,15 +33,14 @@ void P(S** semaphors, Process* pr, int id)
 //active and remove from waiting list.
 void* V(S** semaphors,Queue** Qs, Process* currenlyRunning, int id)
 {
-    S* Semaphore = semaphors[id];
-    Semaphore->value++;
-    if(Semaphore->value >=0)
+    
+    semaphors[id]->value++;
+    if(semaphors[id]->value >=0)
     {
-        if(((Process*)Dequeue(Semaphore->waitingOnSem))==0)
+        Process* aPr = Quues_Head(semaphors[id]->waitingOnSem, 3);
+        if(aPr!=0)
         {
-            //after unblocking the process which was waiting on the blocked queue on semaphore, do we put it in the ready queue as the first process to call?
-            Process* aPr = Quues_Head(Semaphore->waitingOnSem, 3);
-            if(aPr->PID>currenlyRunning->PID)
+            if(aPr->PID > currenlyRunning->PID)
             {
                 currenlyRunning->processState = Ready;
                 Enqueue(Qs[currenlyRunning->PID], currenlyRunning);
