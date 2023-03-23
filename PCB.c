@@ -50,11 +50,13 @@ Process* createProcess(short pr, unsigned int* pid, Queue** Qs)
     aNew->processState = Ready;
     (*pid)++;
     aNew->PID = (*pid);
+    printf("current pr %d:", pr);
     if(Qs != 1)
     {
         Enqueue(Qs[pr], aNew);
     }
     return aNew;
+    
 }
 
 
@@ -169,11 +171,19 @@ int exitProcess(Process* current, Queue** Qs)
 
 void* quantumProcess(Process* running, Queue** Ready_Queues)
 {
-     running->processState = Ready; // First we change the process 
+    printf("quantum process");
+    running->processState = Ready; // First we change the process 
+    printf("quantum process");
+    printf("queantumProcess pr %d", running->processPriority);
     Enqueue(Ready_Queues[running->processPriority],running);
     running = Quues_Head(Ready_Queues , 3);  // Put this routine in some funciton
+    printf("\nthe next_running_process pid:%d", running->PID);
+
     if(running != NULL)
+    {
         running->processState = Running;
+    }
+        
     return running;
 }
 
@@ -282,9 +292,14 @@ void Totalinfo (Queue** Ready_Queue  , Queue** Waiting_Queue ){
 // Function will return the next running prcess from thre ready queues
 
 Process* Next_Running_Process(Queue** Ready_Queue , int size){
-    Process* Next =  Quues_Head(Ready_Queue , size);
-    if(Next == NULL){return NULL;}
-    else {
+    Process* Next =  (Process*)Quues_Head(Ready_Queue , size);
+    if(Next == NULL)
+    {
+        return NULL;
+    }
+    else 
+    {
+        printf("\nthe next_running_process pid:%d", Next->PID);
         Next->processState = Running;
         return Next;
     }

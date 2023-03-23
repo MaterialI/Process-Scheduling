@@ -73,12 +73,21 @@ int main(){
          );
 
          //***testing 
-          createProcess(0,&PID_counter , Ready_Queues );    
-        if(Current_Running == Init)
-        {Current_Running ==Next_Running_Process(Ready_Queues , 3); }
-        Process* new = createProcess(1,&PID_counter , Ready_Queues );
-          killProcess(Current_Running , 3, Ready_Queues , Waiting_Queues);
+        createProcess(1,&PID_counter , Ready_Queues );
+        if(Current_Running == Init){
+            Current_Running =Next_Running_Process(Ready_Queues , 3);
+        }
+        createProcess(2,&PID_counter , Ready_Queues );
+        createProcess(2,&PID_counter , Ready_Queues );
+        printf("SHEESh");
+        printf("\n%d",Current_Running->PID);  
+        printf("what");  
+        Current_Running = quantumProcess(Current_Running, Ready_Queues);
+        printf("\n%d",Current_Running->PID);
+
+         // killProcess(Current_Running , 3, Ready_Queues , Waiting_Queues);
         //***testing
+        
     	while(1)
 	{
 		
@@ -93,7 +102,7 @@ int main(){
                 printf("Enter the Process priority\n");
                  scanf("%d", &prior);
                   createProcess(prior,&PID_counter , Ready_Queues );    
-                 if(Current_Running == Init){Current_Running ==Next_Running_Process(Ready_Queues , 3); }
+                 if(Current_Running == Init){Current_Running = Next_Running_Process(Ready_Queues , 3); }
 				break;
 
 			case 'F':
@@ -115,9 +124,15 @@ int main(){
             exitProcess(Current_Running , Ready_Queues);
             Current_Running = Next_Running_Process(Ready_Queues , 3);
                 break;
+            
+            case 'Q':
+            //code for Quantum
+            Current_Running = quantumProcess(Current_Running, Ready_Queues);
+                break;
 
 			case 'S':
             // Code for Send
+
 				break;
 
 			case 'R':

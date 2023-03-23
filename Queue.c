@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "list.h"
 #include "Queue.h"
+#include "PCB.h"
 
 
 // Desc Creates a new Queue
@@ -32,7 +33,7 @@ int Queue_count(Queue* Q){
 
 // Desc : Inserts to the tail of the Queue 
 int Enqueue(Queue* Q, void* pItem){
-    return List_prepend(Q->qList, pItem);
+    return List_append(Q->qList, pItem);
 }
 
 
@@ -78,9 +79,10 @@ void* Queues_search(Queue** Q, int size, COMPARATOR_FN pComparator, void* pCompa
 // Desc: Removes the first Item in an array of Queues and returns it 
 
 void* Quues_Head(Queue** Q , int size){
-    void* item; 
-    for(int i = 0 ; i < size ; i++){
+    Process* item; 
+    for(int i = 0 ; i < size; i++){
         item = Dequeue(Q[i]);
+        //printf("\nthe quues_head pid:%d", item->PID);
         if(item != NULL)
         {return item;}
     }
@@ -108,7 +110,7 @@ Node* current = plist->pFirstNode;
 int i = 0 ;
     while (current != NULL)
 {
-    printf("%d ",current->pItem);
+    //printf("%d ",current->pItem);
     current = current->pNext;
     i++;
 }
