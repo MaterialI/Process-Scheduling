@@ -144,7 +144,23 @@ int killProcess(unsigned int PID){
 }
 
 
+// Exit 
 
+int exitProcess(){
+    // Case 1: Trying to kill the Init while our ready or blocked process are running 
+    if (PID == 0 && pcb_Count() == false){
+        
+        printf("System Error!\n. More Kernel and User Operations on the Kernel cannot be terminated!!\n");
+        return-1;
+    }
+    //Case 2 : Trying to kill the Init while the Init is the only Process in the system
+    else if (PID == 0 && pcb_Count() == true){
+        printf("This Action will exit/kill the Init. \n The simulation is now terminated\n");
+        exit(0); // Terminate the program
+    }
+
+
+}
 
 
 Process* search_By_ID(List* pList , int PID){
@@ -196,7 +212,7 @@ void get_Next_Process(){
 
 
 bool pcb_Count(){
-    if(pHigh->count == 0 && pNorm->count == 0 && pLow == 0 && pReceive == 0 && pSend == 0){
+    if(pHigh->count == 0 && pNorm->count == 0 && pLow->count == 0 && pReceive->count == 0 && pSend->count == 0){
         return false;
     }
     return true;

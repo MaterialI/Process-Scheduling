@@ -50,8 +50,17 @@ Process* forkProcess();
 
 int killProcess( unsigned int);
 
+//E
+//exit 
+//killes, exterminates, obliterates the process
+//what to pass: just pass the pointer and the array of queues
+//in case of success, returns 0, failure returns -1
+
+int exitProcess();
+
 //Helper fucntion 
 Process* search_By_ID(List*  , int );
 bool pcb_Count();
+
 
 #endif
