@@ -15,6 +15,20 @@ struct PCB
     Queue* incomingMessagesReplied; 
 };
 
+Process* Current_Running;
+
+
+Process* Init;
+unsigned int PID = 0 ; 
+
+List* pHigh = NULL;
+List* pNorm = NULL;
+List* pLow = NULL;
+List* pReceive = NULL; 
+List* pSend = NULL;
+
+
+Process* Init_Process(short , int  , unsigned int );
 
 //C
 //create a process 
@@ -22,7 +36,7 @@ struct PCB
 //(it will first increment the value and after assign it to the process)
 //the last argument will be the appropriate ready queue (high, medium, low)
 
-Process* createProcess(short, unsigned int* , Queue**);
+Process* createProcess(short pr);
 
 
 //F
@@ -30,7 +44,8 @@ Process* createProcess(short, unsigned int* , Queue**);
 //Attempting to Fork the "init" process should fail. 
 //what to pass: Pass the process to the fork function, pass the integer of current PID, pass the readyQueue corresponding to it;
 
-Process* forkProcess(Process*, unsigned int* , Queue**);
+Process* forkProcess( unsigned int* pid);
+
 
 
 //K
@@ -38,55 +53,6 @@ Process* forkProcess(Process*, unsigned int* , Queue**);
 //pass the process PID, and Queueueueueues
 //in case of success, returns 0, failure returns -1
 
-int killProcess(Process*, unsigned int, Queue**, Queue**);
+int killProcess( unsigned int);
 
-
-//E
-//exit 
-//killes, exterminates, obliterates the process
-//what to pass: just pass the pointer and the array of queues
-//in case of success, returns 0, failure returns -1
-
-int exitProcess(Process*, Queue**);
-
-
-//Q
-//Time quantum
-//time quantum of running process expires.
-//what to pass: Process pointer and queues pointers
-//in case of success, returns 0, failure returns -1
-
-void* quantumProcess(Process*, Queue**);
-
-
-//S
-//Send
-//send a message to another process - block until reply
-//what to pass: Pointer to current Process, pid (pid of process to send message to), 
-//char *msg (nullterminated message string, 40 char max); 
-//in case of success, returns 0, failure returns -1
-
-int sendProcess(Queue** Ready_Queues , Queue** Waiting_Queues ,  Process* running, unsigned int sPID, char* msg);
-
-
-//R
-//Receive
-//receive a message - block until one arrives
-
-void receiveProcess(Process* running , Queue** Waiting_Queues);
-
-
-//Y
-//Reply unblocks sender and delivers reply
-//int pid (pid of process to make the reply to), char *msg 
-//(nullterminated reply string, 40 char max)
-
-int replyProcess(Process*, unsigned int rPID, char* msg ,Queue* Senders_Blocked);
-
-int Procinfo (int PID , Queue**  , Queue** );
-
-void  Totalinfo (Queue**  , Queue** );
-
-
-Process* Next_Running_Process(Queue** Ready_Queue , int size);
 #endif

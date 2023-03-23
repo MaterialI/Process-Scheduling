@@ -1,16 +1,8 @@
 #include <stdio.h>
 #include "PCB.h"
-#include "Queue.h"
+#include "list.h"
 #include "Semaphore.h"
 
-
-
-Queue** Ready_Queues[3];
-Queue** Waiting_Queues[2]; 
-Process* Current_Running;
-Process* Init;
-S** Kernel_Semaphores[5];
-static unsigned int  PID_counter = 0;
 
 
 void ErrorMessage(){
@@ -39,25 +31,10 @@ void ErrorMessage(){
 
 int main(){ 
 
-    // We create our 5 main queues 
-    Queue* qLow = Queue_create(); Queue* qNorm = Queue_create(); Queue* qHigh = Queue_create();
-    Queue* qReceive = Queue_create(); Queue* qSend = Queue_create();
-    Ready_Queues[Low] = qLow;
-    Ready_Queues[Medium] = qNorm;
-    Ready_Queues[High] = qHigh;
-    Waiting_Queues[High] = qReceive; 
-    Waiting_Queues[Low] = qSend;
-    // for(int i =0;i<5;i++)
-    // {
-    //     Kernel_Semaphores[i] = malloc(sizeof(Semaphore));
-    // }
-    Init = createProcess(2,&PID_counter,1);
+    Init = Init_Process(Running , 0 , PID );
+    Current_Running = Init_Process;
 
-    Current_Running = Init;
-    char user_input;
-    int prior;
-    
-    printf("%d",Init->PID);
+
     printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
         
     printf( "\n\nCOMMANDS"
@@ -75,22 +52,6 @@ int main(){
         "\nI. Procinfo"
         "\nT. Totalinfo"
          );
-
-         //***testing 
-        createProcess(2,&PID_counter , Ready_Queues );
-        if(Current_Running == Init){
-            Current_Running =Next_Running_Process(Ready_Queues , 3);
-        }
-        createProcess(2,&PID_counter , Ready_Queues );
-        createProcess(2,&PID_counter , Ready_Queues );
-        createProcess(2, &PID_counter, Ready_Queues);
-        newSemaphore(Kernel_Semaphores,0, 1);
-        P(Kernel_Semaphores, Ready_Queues, Current_Running, 0);
-        P(Kernel_Semaphores, Ready_Queues, Current_Running, 0);
-        V(Kernel_Semaphores, Ready_Queues, Current_Running, 0);
-
-         // killProcess(Current_Running , 3, Ready_Queues , Waiting_Queues);
-        //***testing
         
     	while(1)
 	{
@@ -103,35 +64,25 @@ int main(){
 		switch(user_input)	{
 			case 'C':
                 // Code for Create
-                printf("Enter the Process priority\n");
-                 scanf("%d", &prior);
-                  createProcess(prior,&PID_counter , Ready_Queues );    
-                 if(Current_Running == Init){Current_Running = Next_Running_Process(Ready_Queues , 3); }
+                createProcess(1);
 				break;
 
 			case 'F':
             // Code for Fork
-            printf("Fork\n");
-            forkProcess(Current_Running, &PID_counter, Ready_Queues);
                 break;
 
 			case 'K':
-            // Code for Kill
-            // To Do : the case for Init as the running process
-            killProcess(Current_Running , &PID_counter , Ready_Queues , Waiting_Queues);
+            // Code for Kill   
                 break;
 
 			case 'E':
             // Code for Exit 
 
-            // To Do : The case for Init Process
-            exitProcess(Current_Running , Ready_Queues);
-            Current_Running = Next_Running_Process(Ready_Queues , 3);
+            
                 break;
             
             case 'Q':
             //code for Quantum
-            Current_Running = quantumProcess(Current_Running, Ready_Queues);
                 break;
 
 			case 'S':

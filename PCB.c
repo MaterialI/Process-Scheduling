@@ -1,44 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Queue.h"
 #include "list.h"
 #include "PCB.h"
 
 
 
-//!!!!!!!!Found a bug in search queues. It doesn't return the right node. Searching each Queue sepereatly is the better method 
 
 
 
-//takes a ptr to the element and returns the true if the element pointed at by the ptr
-//and the int
-int comparePCBs(Process* toFind, int pid)
-{
-    if(toFind->PID  == pid)
-    {
-        return true;
-    }
-    else 
-        return false;
-}
 
-//C
-//create a process 
-//what to pass: Pass priority from a main file and pass static pid to the process 
-//(it will first increment the value and after assign it to the process)
-//the last argument will be the appropriate ready queue (high, medium, low)
 
-Process* createProcess(short pr, unsigned int* pid, Queue** Qs)
-{
-    Process* aNew;
+
+
+
+Process* Init_Process(short processState , int processPriority , unsigned int PID){
+      Process* aNew;
     if(!(aNew = (Process*)malloc(sizeof(Process))))
     {
         return 0;
     }
-    //to insert in the appropriate list
-    // List_preprend(Qs[pr]->qList, aNew);
     
-    aNew->processPriority = pr;
+    aNew->processPriority = processPriority;
     if(!(aNew->incomingMessagesReceived = (Queue*)malloc(sizeof(Queue))))
     {
         return 0;
@@ -47,260 +29,142 @@ Process* createProcess(short pr, unsigned int* pid, Queue** Qs)
     {
         return 0;
     }
-    aNew->processState = Ready;
-    (*pid)++;
-    aNew->PID = (*pid);
-   // printf("current pr %d:", pr);
-    if(Qs != 1)
-    {
-        Enqueue(Qs[pr], aNew);
-    }
-    return aNew;
-    
-}
-
-
-//F
-//Copy the currently running process and put it on the ready Q corresponding to the original process' priority.
-//Attempting to Fork the "init" process should fail. 
-//what to pass: Pass the process to the fork function, pass the integer of current PID, pass the readyQueue corresponding to it;
-
-Process* forkProcess(Process* current, unsigned int* pid, Queue** Qs)
-{
-    Process* aNew;
-    if(!(aNew = (Process*)malloc(sizeof(Process))))
-    {
-        return 0;
-    }
-    if(!(aNew->incomingMessagesReceived = (Queue*)malloc(sizeof(Queue))))
-    {
-        return 0;
-    }
-     if(!(aNew->incomingMessagesReplied = (Queue*)malloc(sizeof(Queue))))
-    {
-        return 0;
-    }
-   // List_preprend(Qs[current->processPriority]->qList, aNew);
-    aNew->PID = (*pid)++;
-    aNew->processPriority = current->processPriority;
-    aNew->processState = Ready;
+    aNew->processState =processState;
+    aNew->PID = PID;
     return aNew;
 }
 
 
-//K
-//kill the named process and remove it from the system.
-//pass the process PID, and Queueueueueues
-//in case of success, returns 0, failure returns -1
-
-int killProcess(Process* currentRunning, unsigned int pid, Queue** Qs, Queue** srQs)
+Process* createProcess(short pr )
 {
-    if(currentRunning->PID == pid)
-    {
-        currentRunning->processState = Blocked;
-        free(currentRunning);
-        currentRunning = Next_Running_Process(Qs , 3);  // This routine will get the next running process
-        return 0;
-        
+    if((pHigh ==NULL)&&(pNorm == NULL) &&(pLow==NULL)){
+        pHigh = List_create();
+        pNorm = List_create();
+        pLow = List_create();
+        pReceive = List_create();
+        pSend = List_create();
+        printf("New Lists\n"); // Debugging 
     }
-    Process* currentP = Queue_search(Qs[1],comparePCBs , 3); // ******Testing line  // Search each Queue seperatly
-    Process* toRemove;
-    if(currentP != 0){
-        //List_remove(Qs);
-        toRemove = Dequeue_Current(Qs[currentP->processPriority]);
-        if(toRemove == 0)
-        {
-            return -1;
-        }
-        free(toRemove);
-    }   
-    else //the search is splitted into 2 subsearches to distinguish the queues, where we found the element;
-    {
-        int qInd = 0;
-        currentP = Queue_search(srQs[0],comparePCBs, pid);
-        Process* currentP1 = Queue_search(srQs[1], comparePCBs, pid);
-        if(currentP1 != 0)
-        {
-            qInd = 1;
-            currentP = currentP1;
-        }
-        if(currentP !=0)
-        {
+    Process* aNew = Init_Process(Ready , pr , ++PID);
+   printf("current pr %d:", aNew->PID); // Debugging 
+   //*************
+    if(pr == High){    List_append(pHigh , aNew);}
+    else if (pr == Medium) {List_append(pNorm,aNew);}  // Put this routine in some function
+    else {List_append(pLow,aNew);}
+    //*****************
 
-            toRemove = Dequeue_Current(srQs[qInd]);
-           // List_remove(srQs);
-            free(toRemove);    
-        }
-        else
-        {
-            return -1;
-        }
-    }
-    return 0;
-    
+     if(Current_Running == Init_Process){Current_Running = aNew;}  // To Do : Create a function that gets the next Process to run
+    return aNew;
+
 }
 
 
-//E
-//exit 
-//killes, exterminates, obliterates the process
-//what to pass: just pass the pointer and the array of queues
-//in case of success, returns 0, failure returns -1
 
-int exitProcess(Process* current, Queue** Qs)
+Process* forkProcess( unsigned int* pid)
 {
-    if(current != 0)
-    {   
-        current->processState = Blocked;
-        free(current);
-        return 0;
-    }
-    else
-    {
-        return -1;
-    }
-    //do we put another process from waiting queue to the running state?. // yes but in the kernel
-}
-
-
-//Q
-//Time quantum
-//time quantum of running process expires.
-//what to pass: Process pointer and queues pointers
-//in case of success, returns 0, failure returns -1
-
-void* quantumProcess(Process* running, Queue** Ready_Queues)
-{
-    //printf("quantum process");
-    running->processState = Ready; // First we change the process 
-   // printf("quantum process");
-    //printf("queantumProcess pr %d", running->processPriority);
-    Enqueue(Ready_Queues[running->processPriority],running);
-    running = Quues_Head(Ready_Queues , 3);  // Put this routine in some funciton
-    //printf("\nthe next_running_process pid:%d", running->PID);
-
-    if(running != NULL)
-    {
-        running->processState = Running;
-    }
-        
-    return running;
-}
-
-
-//S
-//Send
-//send a message to another process - block until reply
-//what to pass: Pointer to current Process, pid (pid of process to send message to), 
-//char *msg (nullterminated message string, 40 char max); 
-//in case of success, returns 0, failure returns -1
-
-int sendProcess(Queue** Ready_Queues , Queue** Waiting_Queues ,  Process* running, unsigned int sPID, char* msg){
    
-   // Case 1 : The process is blocked on receive 
+   // List_preprend(Qs[current->processPriority]->qList, aNew);
 
-   // This code should be refactored !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   // Add the return current function 
+   if (Current_Running == Init_Process){return -1; } // Fork Failed
+   Process* aNew = Init_Process(Ready , Current_Running->processPriority , ++PID);
 
-    Process* sP = Queue_search(Waiting_Queues[0] , comparePCBs , sPID); 
-    if (sP  != NULL){
-        sP == Dequeue_Current(Waiting_Queues[0]);
-        sP->processState == Ready; 
-        Enqueue(Ready_Queues[sP->processPriority] , sP);
-        return 0 ;
-    } 
+    //*************
+    int pr = Current_Running->processPriority;
+    if(pr == High){    List_append(pHigh , aNew);}
+    else if (pr == Medium) {List_append(pNorm,aNew);}  // Put this routine in one  function for reusibillity 
+    else {List_append(pLow,aNew);}
+    //***************** 
+    return aNew;
+}
 
-    // Case 2  : The process is not on the receive queue //(blocked on send queue)
-    else if (sP == NULL){
-         sP = Queue_search(Waiting_Queues[1] , comparePCBs , sPID);  
-         if(sP != NULL){
-             Enqueue(Ready_Queues[sP->processPriority] , sP);
-             return 0 ;
-         }
+
+// To Do: 1- write a search by ID function. 
+int killProcess(unsigned int PID){
+
+    // Case 1: Trying to kill the Init while our ready or blocked process are running 
+    if (PID == 0 && pcb_Count == false){
+        
+        printf("System Error!\n. More Kernel and User Operations on the Kernel cannot be terminated!!\n");
+        return-1;
+    }
+    else{
+        printf("This Action will exit/kill the Init. \n The simulation is now terminated\n");
+        return 0;
     }
 
-    else {    // The process is in the ready state 
-        sP = Queues_search(Ready_Queues , 3, comparePCBs , sPID);
-        if(sP != NULL){
-            Enqueue(Ready_Queues[sP->processPriority] , sP);
-            return 0 ;
+    if(Current_Running->PID = PID){
+        Free(Current_Running);
+        get_Next_Process();
+    }
+    Process* pCurrent = search_By_ID(pHigh , PID); 
+    //********************************
+    if (pCurrent == NULL){pCurrent = search_By_ID(pNorm , PID);}  // To Do Put this code in a routine        
+    if(pCurrent == NULL){pCurrent =search_By_ID(pLow , PID);}
+    //********************************
+    
+    if(pCurrent != NULL){
+        free(pCurrent);
+    }
+}
+
+
+
+
+
+Process* search_By_ID(List* pList , int PID){
+        Node* current = pList->pCurrentNode; 
+    if(current == LIST_OOB_END){
+          //  printf("The end is reached\n"); 
+            return NULL;
+        }
+        else if ( current == LIST_OOB_START){
+            current = pList->pFirstNode;
+        }
+
+    while (current)
+    {
+        if(search_By_ID(current->pItem , PID) == true){
+            printf("Found a match !!!!!!!!\n"); // Debegiing 
+            return current->pItem;
         }
         else {
-            // Send faild 
-            return -1;
+            current = current->pNext;
         }
     }
-}
-
-
-//R
-//Receive
-//receive a message - block until one arrives
-
-void receiveProcess(Process* running , Queue** Waiting_Queues){
-    if(running->incomingMessagesReceived->qList->count == 0){
-        Enqueue(Waiting_Queues[0] , running);  // If we haven't received everthing. We just put the process on the ready queue 
-    }
-    else {  // if not then we remove the first element on the icomming messages queue and display it
-        char* msg = Dequeue(running->incomingMessagesReceived);
-       //printf("Incomming Message : msg\n\n");
-    }
-}
-
-
-//Y
-//Reply unblocks sender and delivers reply
-//int pid (pid of process to make the reply to), char *msg 
-//(nullterminated reply string, 40 char max)
-
-int replyProcess(Process* running , unsigned int rPID, char* msg , Queue* Senders_Blocked){
-    Process* Ps = Queue_search(Senders_Blocked , comparePCBs , rPID);
-    if(Ps == NULL){return -1;} //reply fails}
-    else {
-        Ps = Dequeue_Current(Senders_Blocked);
-        Enqueue(Ps->incomingMessagesReplied,msg); 
-        return 0 ; 
-        // To do : Check if the message is greater then 40 
-    }
-}
-
-
-int Procinfo (int PID , Queue** Ready_Queues , Queue** Waiting_Queues){
-    Process* sPID = Queues_search(Ready_Queues  , 3, comparePCBs,PID);
-    if(sPID == NULL){
-        sPID = Queues_search(Waiting_Queues , 2 , comparePCBs , PID);
-    }
     
-    if(sPID != NULL){
-        //printf("%d" , sPID->processState);
-        return 0 ;
-    }
-    else {
-        return -1;
-    }
-    
-}
-
-
-void Totalinfo (Queue** Ready_Queue  , Queue** Waiting_Queue ){
-    Print_Queues(Ready_Queue, 3);
-    Print_Queues(Waiting_Queue , 2);
+    printf("No Match Found !!!!!!!!!!!\n"); // Debugginf 
+    pList->pCurrentNode = LIST_OOB_END;
+    return NULL;
 }
 
 
 
-// Function will return the next running prcess from thre ready queues
 
-Process* Next_Running_Process(Queue** Ready_Queue , int size){
-    Process* Next =  (Process*)Quues_Head(Ready_Queue , size);
-    if(Next == NULL)
-    {
-        return NULL;
+bool comparePCB(Process* toFind , int pid){
+    return true  ? (toFind->PID == pid):false;
+}
+
+
+void get_Next_Process(){
+    if(pHigh->count >0){
+        List_first(pHigh);
+        Current_Running = List_remove(pHigh);
     }
-    else 
-    {
-        //printf("\nthe next_running_process pid:%d", Next->PID);
-        Next->processState = Running;
-        return Next;
+    else if (pNorm->count > 0) {
+        List_first(pNorm);
+        Current_Running = List_remove(pNorm);
     }
+    else if(pLow > 0){
+        List_first(pLow);
+        Current_Running =  List_remove(pLow);
+    }
+    else {Current_Running = Init_Process;}
+}
+
+
+bool pcb_Count(){
+    if(pHigh->count == 0 && pNorm->count == 0 && pLow == 0 && pReceive == 0 && pSend == 0){
+        return false;
+    }
+    return true;
 }
