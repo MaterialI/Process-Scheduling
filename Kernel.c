@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "PCB.h"
 #include "list.h"
-#include "Semaphore.h"
 
 
 
@@ -31,9 +30,13 @@ void ErrorMessage(){
 
 int main(){ 
 
-    Init = Init_Process(Running , 0 , PID );
-    Current_Running = Init_Process;
+    start_OS();
+    int pr ;
 
+    createProcess(0);
+    display_OS_Info();
+    killProcess(1);
+    display_OS_Info();
 
     printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
         
@@ -56,7 +59,7 @@ int main(){
     	while(1)
 	{
 		
-
+        display_OS_Info();
        printf("\n\nEnter your command:\n");
        char user_input;
         scanf(" %c", &user_input);
@@ -64,15 +67,19 @@ int main(){
 		switch(user_input)	{
 			case 'C':
                 // Code for Create
-                createProcess(1);
+                scanf("%d", &pr);
+                createProcess(pr);
 				break;
 
 			case 'F':
             // Code for Fork
+            forkProcess();
                 break;
 
 			case 'K':
             // Code for Kill   
+            scanf("%d", &pr);
+             killProcess(pr);
                 break;
 
 			case 'E':

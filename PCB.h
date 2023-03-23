@@ -5,6 +5,7 @@
 enum State {Running = 1, Ready =0,  Blocked =-1};
 enum Priority {High = 0, Medium = 1, Low = 2};
 
+
 typedef struct PCB Process;
 struct PCB
 {
@@ -15,20 +16,14 @@ struct PCB
     Queue* incomingMessagesReplied; 
 };
 
-Process* Current_Running;
+
+void display_OS_Info();
 
 
-Process* Init;
-unsigned int PID = 0 ; 
+bool comparePCB(int toCompare , int pid);
+void* start_OS();
 
-List* pHigh = NULL;
-List* pNorm = NULL;
-List* pLow = NULL;
-List* pReceive = NULL; 
-List* pSend = NULL;
-
-
-Process* Init_Process(short , int  , unsigned int );
+Process* init_Process(short , int  , unsigned int );
 
 //C
 //create a process 
@@ -44,7 +39,7 @@ Process* createProcess(short pr);
 //Attempting to Fork the "init" process should fail. 
 //what to pass: Pass the process to the fork function, pass the integer of current PID, pass the readyQueue corresponding to it;
 
-Process* forkProcess( unsigned int* pid);
+Process* forkProcess();
 
 
 
@@ -54,5 +49,9 @@ Process* forkProcess( unsigned int* pid);
 //in case of success, returns 0, failure returns -1
 
 int killProcess( unsigned int);
+
+//Helper fucntion 
+Process* search_By_ID(List*  , int );
+bool pcb_Count();
 
 #endif

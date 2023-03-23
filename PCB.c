@@ -3,17 +3,23 @@
 #include "list.h"
 #include "PCB.h"
 
+ Process* Current_Running;
+
+ Process* init;
+ unsigned int PID = 0 ; 
+
+ List* pHigh = NULL;
+ List* pNorm = NULL;
+ List* pLow = NULL;
+ List* pReceive = NULL; 
+ List* pSend = NULL;
 
 
-
-
-
-
-
-
-
-
-Process* Init_Process(short processState , int processPriority , unsigned int PID){
+void display_OS_Info(){
+    printf("The latest id is : %d\n", PID);
+    printf("The current running  id is : %d\n" , Current_Running->PID);
+}
+Process* init_Process(short processState , int processPriority , unsigned int PID){
       Process* aNew;
     if(!(aNew = (Process*)malloc(sizeof(Process))))
     {
@@ -35,17 +41,22 @@ Process* Init_Process(short processState , int processPriority , unsigned int PI
 }
 
 
-Process* createProcess(short pr )
-{
-    if((pHigh ==NULL)&&(pNorm == NULL) &&(pLow==NULL)){
+void* start_OS(){
+    init = init_Process(Running , 0 , PID);
+    Current_Running = init; 
         pHigh = List_create();
         pNorm = List_create();
         pLow = List_create();
         pReceive = List_create();
         pSend = List_create();
         printf("New Lists\n"); // Debugging 
-    }
-    Process* aNew = Init_Process(Ready , pr , ++PID);
+    
+}
+
+Process* createProcess(short pr )
+{
+ 
+    Process* aNew = init_Process(Ready , pr , ++PID);
    printf("current pr %d:", aNew->PID); // Debugging 
    //*************
     if(pr == High){    List_append(pHigh , aNew);}
@@ -53,20 +64,21 @@ Process* createProcess(short pr )
     else {List_append(pLow,aNew);}
     //*****************
 
-     if(Current_Running == Init_Process){Current_Running = aNew;}  // To Do : Create a function that gets the next Process to run
+     if(Current_Running == init)
+     { get_Next_Process();}  // To Do : Create a function that gets the next Process to run
     return aNew;
 
 }
 
 
 
-Process* forkProcess( unsigned int* pid)
+Process* forkProcess( )
 {
    
    // List_preprend(Qs[current->processPriority]->qList, aNew);
 
-   if (Current_Running == Init_Process){return -1; } // Fork Failed
-   Process* aNew = Init_Process(Ready , Current_Running->processPriority , ++PID);
+   if (Current_Running == init){return -1; } // Fork Failed
+   Process* aNew = init_Process(Ready , Current_Running->processPriority , ++PID);
 
     //*************
     int pr = Current_Running->processPriority;
@@ -82,19 +94,20 @@ Process* forkProcess( unsigned int* pid)
 int killProcess(unsigned int PID){
 
     // Case 1: Trying to kill the Init while our ready or blocked process are running 
-    if (PID == 0 && pcb_Count == false){
+    if (PID == 0 && pcb_Count() == false){
         
         printf("System Error!\n. More Kernel and User Operations on the Kernel cannot be terminated!!\n");
         return-1;
     }
     //Case 2 : Trying to kill the Init while the Init is the only Process in the system
-    else if (PID == 0 && pcb_Count == true){
+    else if (PID == 0 && pcb_Count() == true){
         printf("This Action will exit/kill the Init. \n The simulation is now terminated\n");
         exit(0); // Terminate the program
     }
     // Case 3 is the targer process is the current running process 
-    if(Current_Running->PID = PID){
-        Free(Current_Running);
+    if(Current_Running->PID == PID){
+        free(Current_Running);
+        Current_Running = NULL;
         get_Next_Process();
         return 0 ;
     }
@@ -139,9 +152,9 @@ Process* search_By_ID(List* pList , int PID){
         Node* current = pList->pCurrentNode;
     if(current == NULL){return NULL;}
 
-    while (current->pItem)
-    {
-        if(search_By_ID(current->pItem , PID) == true){
+    while (current)
+    {   Process* toCompare = current->pItem;
+        if(comparePCB(toCompare->PID , PID) == true){
             printf("Found a match !!!!!!!!\n"); // Debegiing 
             pList->pCurrentNode = current;
             return List_remove(pList);
@@ -159,25 +172,26 @@ Process* search_By_ID(List* pList , int PID){
 
 
 
-bool comparePCB(Process* toFind , int pid){
-    return true  ? (toFind->PID == pid):false;
+ bool comparePCB(int toCompare , int pid){
+    if(toCompare == pid){return true;}
+    return false;
 }
 
 
 void get_Next_Process(){
-    if(pHigh->count >0){
+    if(pHigh->count != 0){
         List_first(pHigh);
         Current_Running = List_remove(pHigh);
     }
-    else if (pNorm->count > 0) {
+    else if (pNorm->count != 0) {
         List_first(pNorm);
         Current_Running = List_remove(pNorm);
     }
-    else if(pLow > 0){
+    else if(pLow->count!= 0){
         List_first(pLow);
         Current_Running =  List_remove(pLow);
     }
-    else {Current_Running = Init_Process;}
+    else {Current_Running = init;}
 }
 
 
