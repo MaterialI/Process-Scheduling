@@ -87,24 +87,47 @@ int killProcess(unsigned int PID){
         printf("System Error!\n. More Kernel and User Operations on the Kernel cannot be terminated!!\n");
         return-1;
     }
-    else{
+    //Case 2 : Trying to kill the Init while the Init is the only Process in the system
+    else if (PID == 0 && pcb_Count == true){
         printf("This Action will exit/kill the Init. \n The simulation is now terminated\n");
-        return 0;
+        exit(0); // Terminate the program
     }
-
+    // Case 3 is the targer process is the current running process 
     if(Current_Running->PID = PID){
         Free(Current_Running);
         get_Next_Process();
+        return 0 ;
     }
-    Process* pCurrent = search_By_ID(pHigh , PID); 
+    // Case 4 : if the process is on the ready queues 
+
     //********************************
+    Process* pCurrent = search_By_ID(pHigh , PID); 
+    
     if (pCurrent == NULL){pCurrent = search_By_ID(pNorm , PID);}  // To Do Put this code in a routine        
     if(pCurrent == NULL){pCurrent =search_By_ID(pLow , PID);}
-    //********************************
-    
+   
+     //********************************
+
+      //********************************
     if(pCurrent != NULL){
-        free(pCurrent);
+        free(pCurrent);         // Put this routine in a function
+        return 0 ;
     }
+     //********************************
+    // Case 5 : if the process is on the Blocked Queues 
+    else{
+
+        //***********************
+          pCurrent = search_By_ID(pReceive , PID); 
+         if (pCurrent == NULL){pCurrent = search_By_ID(pSend , PID);}  // Put this code in a routine 
+         //****************************************************
+    }
+    //*************************
+      if(pCurrent != NULL){
+        free(pCurrent);         // Put this routine in a function
+        return 0 ;
+    }
+    //*************************************************
 }
 
 
@@ -112,20 +135,16 @@ int killProcess(unsigned int PID){
 
 
 Process* search_By_ID(List* pList , int PID){
-        Node* current = pList->pCurrentNode; 
-    if(current == LIST_OOB_END){
-          //  printf("The end is reached\n"); 
-            return NULL;
-        }
-        else if ( current == LIST_OOB_START){
-            current = pList->pFirstNode;
-        }
+        List_first(pList);
+        Node* current = pList->pCurrentNode;
+    if(current == NULL){return NULL;}
 
-    while (current)
+    while (current->pItem)
     {
         if(search_By_ID(current->pItem , PID) == true){
             printf("Found a match !!!!!!!!\n"); // Debegiing 
-            return current->pItem;
+            pList->pCurrentNode = current;
+            return List_remove(pList);
         }
         else {
             current = current->pNext;
