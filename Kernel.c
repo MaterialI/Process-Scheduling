@@ -33,10 +33,7 @@ int main(){
     start_OS();
     int pr ;
 
-    createProcess(0);
-    display_OS_Info();
-    killProcess(1);
-    display_OS_Info();
+
 
     printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
         
@@ -83,12 +80,14 @@ int main(){
                 break;
 
 			case 'E':
+            exitProcess();
             // Code for Exit 
 
             
                 break;
             
             case 'Q':
+            quantumProcess();
             //code for Quantum
                 break;
 

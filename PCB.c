@@ -94,13 +94,13 @@ Process* forkProcess( )
 int killProcess(unsigned int PID){
 
     // Case 1: Trying to kill the Init while our ready or blocked process are running 
-    if (PID == 0 && pcb_Count() == false){
+    if (PID == 0 && pcb_Count() == true){
         
         printf("System Error!\n. More Kernel and User Operations on the Kernel cannot be terminated!!\n");
         return-1;
     }
     //Case 2 : Trying to kill the Init while the Init is the only Process in the system
-    else if (PID == 0 && pcb_Count() == true){
+    else if (PID == 0 && pcb_Count() == false){
         printf("This Action will exit/kill the Init. \n The simulation is now terminated\n");
         exit(0); // Terminate the program
     }
@@ -149,11 +149,27 @@ int killProcess(unsigned int PID){
 int exitProcess(){
 
         killProcess(Current_Running->PID);
-    
-
 
 }
 
+
+
+// Quantum 
+
+int  quantumProcess(){
+
+    if(Current_Running == init){
+        return -1;
+    }
+    Process* pCurrent = Current_Running;
+    get_Next_Process();
+    //********** 
+    if(Current_Running->PID == High){List_append(pHigh , pCurrent);}
+    else if(Current_Running->PID == Medium){List_append(pNorm , pCurrent);} //Put this in a function 
+    else if(Current_Running->PID == Low){List_append(pLow , pCurrent);}
+    //****************************
+    return 0;
+}
 
 Process* search_By_ID(List* pList , int PID){
         List_first(pList);

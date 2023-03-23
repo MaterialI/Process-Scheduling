@@ -58,6 +58,10 @@ int killProcess( unsigned int);
 
 int exitProcess();
 
+
+// Q
+int quantumProcess();
+
 //Helper fucntion 
 Process* search_By_ID(List*  , int );
 bool pcb_Count();
