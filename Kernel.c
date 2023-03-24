@@ -81,7 +81,7 @@ int main(){
 		switch(user_input)	{
 			case 'C':
                 // Code for Create
-            
+                printf("Enter pid for the process\n");
                 scanf("%d", &pr);
                 createProcess(pr);
 				break;
@@ -92,7 +92,8 @@ int main(){
                 break;
 
 			case 'K':
-            // Code for Kill   
+            // Code for Kill
+            printf("Enter pid for the process to be killed\n");   
             scanf("%d", &pr);
              killProcess(pr);
                 break;
