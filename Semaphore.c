@@ -31,14 +31,22 @@ S* newSemaphore(int ID, int val)
 //and change the status of the process. 
 void P( int id)
 {
-    Process* pr = get_Current_Running();
-    semaphors[id]->value--;
-    if(semaphors[id]->value < 0)
+    if(semaphors[id]==0)
     {
-        printf("the process %d was blocked on semaphore %d\n",pr->PID, id);
-        pr->processState = Blocked;
-        List_append(semaphors[id]->waitingOnSem[pr->processPriority], pr);
-        get_Next_Process();
+        printf("The semaphore with the %d id dne", id);
+        return 0;
+    }
+    Process* pr = get_Current_Running();
+    if(pr->PID!=0)
+    {   
+        semaphors[id]->value--;
+        if(semaphors[id]->value < 0)
+        {
+            printf("the process %d was blocked on semaphore %d\n",pr->PID, id);
+            pr->processState = Blocked;
+            List_append(semaphors[id]->waitingOnSem[pr->processPriority], pr);
+            get_Next_Process();
+        }
     }
 }
 
@@ -46,9 +54,18 @@ void P( int id)
 //active and remove from waiting list.
 void* V( int id)
 {
+    if(semaphors[id] == 0)
+    {
+        printf("The semaphore with the %d id dne", id);
+        return 0;
+    }
     Process* currenlyRunning = get_Current_Running();
     semaphors[id]->value++;
-    if(semaphors[id]->value >=0)
+    int sum =semaphors[id]->waitingOnSem[0]->count;
+    sum+=semaphors[id]->waitingOnSem[1]->count;
+    sum+=semaphors[id]->waitingOnSem[2]->count;
+    printf("SEMAPHORE COUNT %d\n", sum);
+    if(semaphors[id]->value >=0 && sum!=0)
     {
         Process* aPr;
         if(List_count(semaphors[id]->waitingOnSem[0])!=0)
@@ -75,13 +92,16 @@ void* V( int id)
                 put_aProcess(currenlyRunning);
                 currenlyRunning = get_Next_Process();
                 currenlyRunning->processState = Running;
+                return;
             }
             else
             {
                 printf("The process %d was put back on the ready queue\n");
                 put_aProcess(aPr);
+                return;
             }
         }
     }
+    printf("The semaphore pid:%d doesn't have any waiting processes\n", id);
 
 }
