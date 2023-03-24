@@ -33,7 +33,7 @@ int main(){
     start_OS();
     int pr ;
     int t_pid, val;
-    char* msg = malloc(sizeof(char)*100);
+    char* msg = malloc(sizeof(char)*40);
 
 
 
