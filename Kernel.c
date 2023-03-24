@@ -62,13 +62,13 @@ int main(){
         // Process* sec = createProcess(1);
         // Process* thr = createProcess(2);
         // char* msg = malloc(sizeof(char)*100);
-        // msg[0]= 's';
-        // msg[1] = 'u';
-        // msg[2] = 'p';
-        // msg[3] = '\0';
-		// sendProcess(2, msg);
-        // receiveProcess();
-        // receiveProcess(1, msg);
+        // quantumProcess();
+        // display_OS_Info();
+        // quantumProcess();
+        //  display_OS_Info();
+        // quantumProcess();
+        //  display_OS_Info();
+        // quantumProcess();
         
         display_OS_Info();
        printf("\n\nEnter your command:\n");
