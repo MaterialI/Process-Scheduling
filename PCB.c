@@ -163,13 +163,17 @@ int  quantumProcess(){
         return -1;
         printf("System Error\n");
     }
+
     Process* pCurrent = Current_Running;
+    Current_Running = 0;
     get_Next_Process();
-    //********** 
-    // if(Current_Running->PID == High){List_append(pHigh , pCurrent);}
-    // else if(Current_Running->PID == Medium){List_append(pNorm , pCurrent);} //Put this in a function 
-    // else if(Current_Running->PID == Low){List_append(pLow , pCurrent);}
     put_aProcess(pCurrent);
+   
+    //********** 
+    // if(pCurrent->PID == High){List_append(pHigh , pCurrent);}
+    // else if(pCurrent->PID == Medium){List_append(pNorm , pCurrent);} //Put this in a function 
+    // else if(pCurrent->PID == Low){List_append(pLow , pCurrent);}
+    //put_aProcess(pCurrent);
     //****************************
     return 0;
 }
