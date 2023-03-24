@@ -61,14 +61,16 @@ Process* createProcess(short pr )
 {
  
     Process* aNew = init_Process(Ready , pr , ++PID);
+    if(aNew == NULL){printf("Create Process Failed\n"); return -1;}
 //    printf("current pr %d:", aNew->PID); // Debugging 
    //*************
-    put_aProcess(aNew);
+    if(put_aProcess(aNew)== false){printf("Create Process Failed\n"); return -1;}
     //*****************
 
+    printf("The id of the new created Process is %d \n", aNew->PID);
      if(Current_Running == init)
      { get_Next_Process();}  // To Do : Create a function that gets the next Process to run
-    return aNew;
+    return 0;
 
 }
 
@@ -81,9 +83,9 @@ Process* forkProcess( )
 
    if (Current_Running == init){return -1; } // Fork Failed
    Process* aNew = init_Process(Ready , Current_Running->processPriority , ++PID);
-
+    if(aNew == NULL){printf("Fork Process Failed\n"); return -1;}
     //*************
-   put_aProcess(aNew);
+   if(put_aProcess(aNew)== false){printf("Create Process Failed\n"); return -1;}
     //***************** 
     return aNew;
 }
@@ -146,9 +148,9 @@ int killProcess(unsigned int PID){
 // Exit 
 
 int exitProcess(){
-
+        printf("You are about to exit Process ID : %d\n",Current_Running->PID);
         killProcess(Current_Running->PID);
-
+        printf("The new running Process is  : %d\n",Current_Running->PID);
 }
 
 
@@ -159,6 +161,7 @@ int  quantumProcess(){
 
     if(Current_Running == init){
         return -1;
+        printf("System Error\n");
     }
     Process* pCurrent = Current_Running;
     get_Next_Process();
