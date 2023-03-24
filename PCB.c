@@ -61,11 +61,9 @@ Process* createProcess(short pr )
 {
  
     Process* aNew = init_Process(Ready , pr , ++PID);
-   printf("current pr %d:", aNew->PID); // Debugging 
+//    printf("current pr %d:", aNew->PID); // Debugging 
    //*************
-    if(pr == High){    List_append(pHigh , aNew);}
-    else if (pr == Medium) {List_append(pNorm,aNew);}  // Put this routine in some function
-    else {List_append(pLow,aNew);}
+    put_aProcess(aNew);
     //*****************
 
      if(Current_Running == init)
@@ -85,10 +83,7 @@ Process* forkProcess( )
    Process* aNew = init_Process(Ready , Current_Running->processPriority , ++PID);
 
     //*************
-    int pr = Current_Running->processPriority;
-    if(pr == High){    List_append(pHigh , aNew);}
-    else if (pr == Medium) {List_append(pNorm,aNew);}  // Put this routine in one  function for reusibillity 
-    else {List_append(pLow,aNew);}
+   put_aProcess(aNew);
     //***************** 
     return aNew;
 }
@@ -207,7 +202,7 @@ Process* search_By_rPId(List* pList , int rPID){
     while (current)
     {   Process* toCompare = current->pItem;
         if(comparePCB(toCompare->outcomingPID , rPID) == true){
-            printf("Found a match !!!!!!!!\n"); // Debegiing 
+            // printf("Found a match !!!!!!!!\n"); // Debegiing 
             pList->pCurrentNode = current;
             return List_curr(pList);
         }
@@ -216,7 +211,7 @@ Process* search_By_rPId(List* pList , int rPID){
         }
     }
     
-    printf("No Match Found !!!!!!!!!!!\n"); // Debugginf 
+    // printf("No Match Found !!!!!!!!!!!\n"); // Debugginf 
     pList->pCurrentNode = LIST_OOB_END;
     return NULL;
 }
