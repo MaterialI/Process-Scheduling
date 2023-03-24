@@ -28,7 +28,7 @@ Process* init_Process(short processState , int processPriority , unsigned int PI
     }
     
     aNew->processPriority = processPriority;
-    if(!(aNew->outcomingMessages = (List*)malloc(sizeof(List))))
+    if(!(aNew->outcomingMessage = (char*)malloc(sizeof(char)*100)))
     {
         return 0;
     }
@@ -168,9 +168,10 @@ int  quantumProcess(){
     Process* pCurrent = Current_Running;
     get_Next_Process();
     //********** 
-    if(Current_Running->PID == High){List_append(pHigh , pCurrent);}
-    else if(Current_Running->PID == Medium){List_append(pNorm , pCurrent);} //Put this in a function 
-    else if(Current_Running->PID == Low){List_append(pLow , pCurrent);}
+    // if(Current_Running->PID == High){List_append(pHigh , pCurrent);}
+    // else if(Current_Running->PID == Medium){List_append(pNorm , pCurrent);} //Put this in a function 
+    // else if(Current_Running->PID == Low){List_append(pLow , pCurrent);}
+    put_aProcess(pCurrent);
     //****************************
     return 0;
 }
@@ -296,7 +297,7 @@ void sendProcess(int rPID, char* msg)
         put_aProcess(receiver); 
     }
     else{
-        List_append(Current_Running->outcomingMessages, msg);
+        Current_Running->outcomingMessage = msg;
     }
     printf("The process, pid: %d is blocked on send queue\n", Current_Running->PID);
     Current_Running->processState = Blocked;
@@ -318,7 +319,7 @@ void receiveProcess()
     }
     else
     {
-        printf("The message was received by %d, from %d, the message\n%s", Current_Running->PID, sender->PID, sender->outcomingMessages);
+        printf("The message was received by %d, from %d, the message\n%s", Current_Running->PID, sender->PID, sender->outcomingMessage);
     }
 }
 

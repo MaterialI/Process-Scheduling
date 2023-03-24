@@ -14,7 +14,7 @@ struct PCB
     unsigned int PID; 
     List* incomingMessagesReceived;
     List* incomingMessagesReplied; 
-    List* outcomingMessages;
+    char* outcomingMessage;
     int outcomingPID;
 
 };

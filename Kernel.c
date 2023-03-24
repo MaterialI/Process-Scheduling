@@ -32,6 +32,8 @@ int main(){
 
     start_OS();
     int pr ;
+    int t_pid, val;
+    char* msg = malloc(sizeof(char)*100);
 
 
 
@@ -56,12 +58,17 @@ int main(){
     	while(1)
 	{
 
-        Process* fir = createProcess(0);
-        Process* sec = createProcess(1);
-        Process* thr = createProcess(2);
-        char* msg = "sup";
-		sendProcess(2, msg);
-        receiveProcess();
+        // Process* fir = createProcess(0);
+        // Process* sec = createProcess(1);
+        // Process* thr = createProcess(2);
+        // char* msg = malloc(sizeof(char)*100);
+        // msg[0]= 's';
+        // msg[1] = 'u';
+        // msg[2] = 'p';
+        // msg[3] = '\0';
+		// sendProcess(2, msg);
+        // receiveProcess();
+        // receiveProcess(1, msg);
         
         display_OS_Info();
        printf("\n\nEnter your command:\n");
@@ -100,23 +107,38 @@ int main(){
 
 			case 'S':
             // Code for Send
-
+            printf("Enter pid and message to be sent\n");
+            scanf(" %d %s", t_pid, msg);
+            sendProcess(t_pid, msg);
 				break;
 
 			case 'R':
             // Code for Receive 
+            receiveProcess();
 				break;
             case 'Y':
             // Reply
+            printf("Enter pid and message to be sent\n");
+            scanf(" %d %s", t_pid, msg);
+            replyProcess(t_pid, msg);
                 break;
             case 'N':
             // Code for new Semaphore
+            printf("Enter semaphore id (0-4) and value of the semaphore\n");
+            scanf(" %d %d", t_pid, val);
+            newSemaphore(t_pid, val);
                 break;
             case 'P':
             // Code for P Semaphore
+            printf("Enter the id of the semaphore:");
+            scanf("%d", t_pid);
+            P(t_pid);
                 break;
             case 'V':
             // Code for V Semaphore
+            printf("Enter the id of the semaphore:");
+            scanf("%d", t_pid);
+            V(t_pid);
                 break;
             case 'I':
             //  Code Procinfo

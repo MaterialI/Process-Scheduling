@@ -23,6 +23,7 @@ S* newSemaphore(int ID, int val)
     semaphors[ID]->waitingOnSem = malloc(sizeof(List*)*3);
     for(int i =0;i<3; i++)
         semaphors[ID]->waitingOnSem[i] = List_create();
+    printf("The semaphore with id:%d and value:%d\n", semaphors[ID]->id, semaphors[ID]->value);
     return semaphors[ID];
 }
 
@@ -34,6 +35,7 @@ void P( int id)
     semaphors[id]->value--;
     if(semaphors[id]->value < 0)
     {
+        printf("the process %d was blocked on semaphore %d\n",pr->PID, id);
         pr->processState = Blocked;
         List_append(semaphors[id]->waitingOnSem[pr->processPriority], pr);
         get_Next_Process();
@@ -68,6 +70,7 @@ void* V( int id)
         {
             if(aPr->PID > currenlyRunning->PID)
             {
+                printf("The process %d was swapped with %d", currenlyRunning->PID, aPr->PID);
                 currenlyRunning->processState = Ready;
                 put_aProcess(currenlyRunning);
                 currenlyRunning = get_Next_Process();
@@ -75,6 +78,7 @@ void* V( int id)
             }
             else
             {
+                printf("The process %d was put back on the ready queue\n");
                 put_aProcess(aPr);
             }
         }
