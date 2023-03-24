@@ -61,14 +61,16 @@ Process* createProcess(short pr )
 {
  
     Process* aNew = init_Process(Ready , pr , ++PID);
+    if(aNew == NULL){printf("Create Process Failed\n"); return -1;}
 //    printf("current pr %d:", aNew->PID); // Debugging 
    //*************
-    put_aProcess(aNew);
+    if(put_aProcess(aNew)== false){printf("Create Process Failed\n"); return -1;}
     //*****************
 
+    printf("The id of the new created Process is %d \n", aNew->PID);
      if(Current_Running == init)
      { get_Next_Process();}  // To Do : Create a function that gets the next Process to run
-    return aNew;
+    return 0;
 
 }
 
@@ -81,9 +83,9 @@ Process* forkProcess( )
 
    if (Current_Running == init){return -1; } // Fork Failed
    Process* aNew = init_Process(Ready , Current_Running->processPriority , ++PID);
-
+    if(aNew == NULL){printf("Fork Process Failed\n"); return -1;}
     //*************
-   put_aProcess(aNew);
+   if(put_aProcess(aNew)== false){printf("Create Process Failed\n"); return -1;}
     //***************** 
     return aNew;
 }
@@ -146,9 +148,9 @@ int killProcess(unsigned int PID){
 // Exit 
 
 int exitProcess(){
-
+        printf("You are about to exit Process ID : %d\n",Current_Running->PID);
         killProcess(Current_Running->PID);
-
+        printf("The new running Process is  : %d\n",Current_Running->PID);
 }
 
 
@@ -159,6 +161,7 @@ int  quantumProcess(){
 
     if(Current_Running == init){
         return -1;
+        printf("System Error\n");
     }
 
     Process* pCurrent = Current_Running;
@@ -373,3 +376,79 @@ bool replyProcess(int sPID, char* msg)
     return 1;
 }
 
+
+//I 
+void Procinfo(int id){
+
+    // Case 0: 
+    if(Current_Running->PID == id){
+         printf("Process Status is : %d\n" , Current_Running->processState);        
+         printf("Process Prioriy is : %d\n", Current_Running->processPriority);
+        return  ;
+    }
+
+    // Case 1 Process is on the ready queus 
+     Process* pCurrent = search_By_ID(pHigh , PID); 
+    
+    if (pCurrent == NULL){pCurrent = search_By_ID(pNorm , PID);}  // To Do Put this code in a routine        
+    if(pCurrent == NULL){pCurrent =search_By_ID(pLow , PID);}
+
+
+    if(pCurrent != NULL){
+         printf("Process Status is : %d\n" , pCurrent->processState);        
+         printf("Process Prioriy is : %d\n", pCurrent->processPriority);
+        return  ;
+    }
+     //********************************
+    // Case 2 : if the process is on the Blocked Queues 
+    else{
+
+        //***********************
+          pCurrent = search_By_ID(pReceive , PID); 
+         if (pCurrent == NULL){pCurrent = search_By_ID(pSend , PID);}
+
+         if(pCurrent != NULL){
+             printf("Process Status is : %d\n" , pCurrent->processState);        
+         printf("Process Prioriy is : %d\n", pCurrent->processPriority);
+         return;
+         }
+}
+}
+
+
+
+
+// T
+
+void Totalinfo(){
+    printf("Process Status is : %d\n" , Current_Running->processState);        
+         printf("Process Prioriy is : %d\n", Current_Running->processPriority);
+
+         Print_Queue(pHigh); Print_Queue(pNorm); Print_Queue(pLow);
+         Print_Queue(pReceive); Print_Queue(pSend);
+}
+
+
+
+
+
+// Helper function to print the values in queue 
+
+void print_queue(List* pList){
+       List_first(pList);
+        Node* current = pList->pCurrentNode;
+    if(current == NULL){return NULL;}
+
+    while (current)
+    {   Process* toPrint = current->pItem;
+        
+           if(toPrint != NULL){
+             printf("Process Status is : %d\n" , toPrint->processState);        
+         printf("Process Prioriy is : %d\n",toPrint->processPriority);
+         }
+          current = current->pNext;
+    }
+ 
+    pList->pCurrentNode = LIST_OOB_END;
+    
+}

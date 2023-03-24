@@ -150,9 +150,13 @@ int main(){
                 break;
             case 'I':
             //  Code Procinfo
+            scanf("%d", &pr);
+            Procinfo(pr);
+            
                 break;
             case 'T':
             // Code for Totalinfo
+            Totalinfo();
                 break;
 
 			default:

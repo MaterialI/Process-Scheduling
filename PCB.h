@@ -88,4 +88,9 @@ void receiveProcess();
 //if didn't found in send list operation unsuccessful 
 //else releases blocked on send process
 bool replyProcess(int, char*);
+
+
+void Procinfo(int id);
+void Totalinfo();
+void Print_Queue(List*);
 #endif
