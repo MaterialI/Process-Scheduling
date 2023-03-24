@@ -92,5 +92,5 @@ bool replyProcess(int, char*);
 
 void Procinfo(int id);
 void Totalinfo();
-void Print_Queue(List*);
+void print_queue(List*);
 #endif

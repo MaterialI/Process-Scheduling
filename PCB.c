@@ -419,8 +419,8 @@ void Totalinfo(){
     printf("Process Status is : %d\n" , Current_Running->processState);        
          printf("Process Prioriy is : %d\n", Current_Running->processPriority);
 
-         Print_Queue(pHigh); Print_Queue(pNorm); Print_Queue(pLow);
-         Print_Queue(pReceive); Print_Queue(pSend);
+         print_queue(pHigh); print_queue(pNorm); print_queue(pLow);
+        print_queue(pReceive); print_queue(pSend);
 }
 
 

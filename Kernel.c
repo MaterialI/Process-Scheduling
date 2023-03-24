@@ -58,19 +58,11 @@ int main(){
     	while(1)
 	{
 
-        // Process* fir = createProcess(0);
-        // Process* sec = createProcess(1);
-        // Process* thr = createProcess(2);
-        // char* msg = malloc(sizeof(char)*100);
-        // sendProcess(2, msg);
-        // receiveProcess();
-        // quantumProcess();
-        // display_OS_Info();
-        // quantumProcess();
-        //  display_OS_Info();
-        // quantumProcess();
-        //  display_OS_Info();
-        // quantumProcess();
+        Process* fir = createProcess(0);
+        Process* sec = createProcess(1);
+        Process* thr = createProcess(2);
+        char* msg = malloc(sizeof(char)*100);
+        Totalinfo();
         
         display_OS_Info();
        printf("\n\nEnter your command:\n");
