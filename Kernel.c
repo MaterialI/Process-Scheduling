@@ -62,6 +62,8 @@ int main(){
         // Process* sec = createProcess(1);
         // Process* thr = createProcess(2);
         // char* msg = malloc(sizeof(char)*100);
+        // sendProcess(2, msg);
+        // receiveProcess();
         // quantumProcess();
         // display_OS_Info();
         // quantumProcess();
@@ -109,9 +111,9 @@ int main(){
 			case 'S':
             // Code for Send
             printf("Enter pid and message to be sent\n");
-            scanf("%d", t_pid);
-            scanf("%s", msg);
-            sendProcess(t_pid, msg);
+            scanf("%d", &t_pid);
+            scanf("%s", &msg);
+            sendProcess(t_pid, &msg);
 				break;
 
 			case 'R':
@@ -121,27 +123,27 @@ int main(){
             case 'Y':
             // Reply
             printf("Enter pid and message to be sent\n");
-            scanf("%d", t_pid);
-            scanf("%s", msg);
-            replyProcess(t_pid, msg);
+            scanf("%d", &t_pid);
+            scanf("%s", &msg);
+            replyProcess(t_pid, &msg);
                 break;
             case 'N':
             // Code for new Semaphore
             printf("Enter semaphore id (0-4) and value of the semaphore\n");
-            scanf("%d", t_pid);
-            scanf("%d", val);
+            scanf("%d", &t_pid);
+            scanf("%d", &val);
             newSemaphore(t_pid, val);
                 break;
             case 'P':
             // Code for P Semaphore
             printf("Enter the id of the semaphore:");
-            scanf("%d", t_pid);
+            scanf("%d", &t_pid);
             P(t_pid);
                 break;
             case 'V':
             // Code for V Semaphore
             printf("Enter the id of the semaphore:");
-            scanf("%d", t_pid);
+            scanf("%d", &t_pid);
             V(t_pid);
                 break;
             case 'I':

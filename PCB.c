@@ -162,15 +162,15 @@ int  quantumProcess(){
     }
 
     Process* pCurrent = Current_Running;
-    Current_Running = 0;
-    get_Next_Process();
     put_aProcess(pCurrent);
+    get_Next_Process();
+    
    
     //********** 
     // if(pCurrent->PID == High){List_append(pHigh , pCurrent);}
     // else if(pCurrent->PID == Medium){List_append(pNorm , pCurrent);} //Put this in a function 
     // else if(pCurrent->PID == Low){List_append(pLow , pCurrent);}
-    //put_aProcess(pCurrent);
+    
     //****************************
     return 0;
 }
@@ -243,7 +243,39 @@ void get_Next_Process(){
         Current_Running =  List_remove(pLow);
         Current_Running->processState = Running;
     }
+    
     else {Current_Running = init;}
+    
+}
+void get_Next_ProcessC(){
+    if(pHigh->count != 0){
+        List_last(pHigh);
+        Current_Running->processState = Ready;
+        List_append(pHigh, Current_Running);
+        List_first(pHigh);
+        Current_Running = List_remove(pHigh);
+        Current_Running->processState = Running;
+    }
+    else if (pNorm->count != 0) {
+        List_last(pNorm);
+        Current_Running->processState = Ready;
+        List_append(pNorm, Current_Running);
+        List_first(pNorm);
+        Current_Running = List_remove(pNorm);
+        Current_Running->processState = Running;
+    }
+    else if(pLow->count!= 0){
+        List_last(pLow);
+        Current_Running->processState = Ready;
+        List_append(pLow, Current_Running);
+        List_first(pLow);
+        Current_Running =  List_remove(pLow);
+        Current_Running->processState = Running;
+    }
+    else {Current_Running = init;}
+    printf("Hi %d\n", pHigh->count);
+    printf("Norm %d\n", pNorm->count);
+    printf("Lo %d\n", pLow->count);
 }
 
 bool put_aProcess(Process* pr)
@@ -253,17 +285,17 @@ bool put_aProcess(Process* pr)
         return;
     }
     int success = 1;
-    if(pr->PID == 0)
+    if(pr->processPriority == 0)
     {
         success*=List_append(pHigh, pr);
         pr->processState = Ready;
     }
-    if(pr->PID == 1)
+    if(pr->processPriority == 1)
     {
         success*= List_append(pNorm, pr);
         pr->processState = Ready;
     }
-    if(pr->PID == 2)
+    if(pr->processPriority == 2)
     {
         success*= List_append(pLow, pr);
         pr->processState = Ready;
