@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "PCB.h"
 #include "list.h"
-
+#include "Semaphore.h"
 
 
 void ErrorMessage(){
@@ -55,7 +55,15 @@ int main(){
         
     	while(1)
 	{
-		
+
+        Process* fir = createProcess(0);
+        Process* sec = createProcess(1);
+        Process* thr = createProcess(2);
+		S* aSem = newSemaphore(0, 1);
+        P(0);
+        P(0);
+        V(0);
+
         display_OS_Info();
        printf("\n\nEnter your command:\n");
        char user_input;

@@ -15,6 +15,7 @@
  List* pSend = NULL;
 
 
+
 void display_OS_Info(){
     printf("The latest id is : %d\n", PID);
     printf("The current running  id is : %d\n" , Current_Running->PID);
@@ -27,7 +28,7 @@ Process* init_Process(short processState , int processPriority , unsigned int PI
     }
     
     aNew->processPriority = processPriority;
-    if(!(aNew->incomingMessagesReceived = (Queue*)malloc(sizeof(Queue))))
+    if(!(aNew->outcomingMessages = (List*)malloc(sizeof(List))))
     {
         return 0;
     }
@@ -40,6 +41,9 @@ Process* init_Process(short processState , int processPriority , unsigned int PI
     return aNew;
 }
 
+Process* get_Current_Running(){
+    return Current_Running;
+}
 
 void* start_OS(){
     init = init_Process(Running , 0 , PID);
@@ -194,6 +198,27 @@ Process* search_By_ID(List* pList , int PID){
 }
 
 
+Process* search_By_rPId(List* pList , int rPID){
+        List_first(pList);
+        Node* current = pList->pCurrentNode;
+    if(current == NULL){return NULL;}
+
+    while (current)
+    {   Process* toCompare = current->pItem;
+        if(comparePCB(toCompare->outcomingPID , rPID) == true){
+            printf("Found a match !!!!!!!!\n"); // Debegiing 
+            pList->pCurrentNode = current;
+            return List_curr(pList);
+        }
+        else {
+            current = current->pNext;
+        }
+    }
+    
+    printf("No Match Found !!!!!!!!!!!\n"); // Debugginf 
+    pList->pCurrentNode = LIST_OOB_END;
+    return NULL;
+}
 
 
  bool comparePCB(int toCompare , int pid){
@@ -206,16 +231,48 @@ void get_Next_Process(){
     if(pHigh->count != 0){
         List_first(pHigh);
         Current_Running = List_remove(pHigh);
+        Current_Running->processState = Running;
     }
     else if (pNorm->count != 0) {
         List_first(pNorm);
         Current_Running = List_remove(pNorm);
+        Current_Running->processState = Running;
     }
     else if(pLow->count!= 0){
         List_first(pLow);
         Current_Running =  List_remove(pLow);
+        Current_Running->processState = Running;
     }
     else {Current_Running = init;}
+}
+
+bool put_aProcess(Process* pr)
+{
+    if(pr == 0)
+    {
+        return;
+    }
+    int success = 1;
+    if(pr->PID == 0)
+    {
+        success*=List_append(pHigh, pr);
+        pr->processState = Ready;
+    }
+    if(pr->PID == 1)
+    {
+        success*= List_append(pNorm, pr);
+        pr->processState = Ready;
+    }
+    if(pr->PID == 2)
+    {
+        success*= List_append(pLow, pr);
+        pr->processState = Ready;
+    }
+    if(success<0)
+    {
+        return false;
+    }
+    return true;
 }
 
 
@@ -225,3 +282,43 @@ bool pcb_Count(){
     }
     return true;
 }
+
+void sendProcess(int rPID, char* msg)
+{
+    Current_Running ->outcomingPID = rPID;
+    Process* receiver = search_By_ID(pReceive, rPID);
+    if(receiver!=0)
+    {
+        printf("The receiver pid:%d received a message: %s\n", rPID, msg);
+        printf("The receive process was returned to %d Ready queue\n");
+        List_remove(pReceive);
+        receiver->processState = Ready;
+        put_aProcess(receiver); 
+    }
+    else{
+        List_append(Current_Running->outcomingMessages, msg);
+    }
+    printf("The process, pid: %d is blocked on send queue\n", Current_Running->PID);
+    Current_Running->processState = Blocked;
+    List_append(pSend, Current_Running);
+    get_Next_Process();
+    return;
+    
+}
+
+void receiveProcess()
+{
+    Process* sender = (Process*)search_By_rPId(pSend, Current_Running->PID);
+    if(sender == 0)
+    {
+        printf("The process, pid: %d is blocked on receive queue\n", Current_Running->PID);
+        Current_Running->processState = Blocked;
+        List_append(pReceive, sender);
+        get_Next_Process();
+    }
+    else
+    {
+        printf("The message was received by %d, from %d, the message\n%s", Current_Running->PID, sender->PID, sender->outcomingMessages);
+    }
+}
+

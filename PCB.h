@@ -12,8 +12,11 @@ struct PCB
     short processState; 
     int processPriority;
     unsigned int PID; 
-    Queue* incomingMessagesReceived;
-    Queue* incomingMessagesReplied; 
+    List* incomingMessagesReceived;
+    List* incomingMessagesReplied; 
+    List* outcomingMessages;
+    int outcomingPID;
+
 };
 
 
@@ -22,7 +25,8 @@ void display_OS_Info();
 
 bool comparePCB(int toCompare , int pid);
 void* start_OS();
-
+bool put_aProcess(Process*);
+Process* get_Current_Running();
 Process* init_Process(short , int  , unsigned int );
 
 //C
@@ -66,5 +70,11 @@ int quantumProcess();
 Process* search_By_ID(List*  , int );
 bool pcb_Count();
 
+// S
+//send process
+//pass pid of receiver, the message to be sent
+//print the scheduling info
+void sendProcess(int, char*);
 
+void receiveProcess();
 #endif
