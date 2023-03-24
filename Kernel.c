@@ -78,6 +78,7 @@ int main(){
 		switch(user_input)	{
 			case 'C':
                 // Code for Create
+            
                 scanf("%d", &pr);
                 createProcess(pr);
 				break;
@@ -108,7 +109,8 @@ int main(){
 			case 'S':
             // Code for Send
             printf("Enter pid and message to be sent\n");
-            scanf(" %d %s", t_pid, msg);
+            scanf("%d", t_pid);
+            scanf("%s", msg);
             sendProcess(t_pid, msg);
 				break;
 
@@ -119,13 +121,15 @@ int main(){
             case 'Y':
             // Reply
             printf("Enter pid and message to be sent\n");
-            scanf(" %d %s", t_pid, msg);
+            scanf("%d", t_pid);
+            scanf("%s", msg);
             replyProcess(t_pid, msg);
                 break;
             case 'N':
             // Code for new Semaphore
             printf("Enter semaphore id (0-4) and value of the semaphore\n");
-            scanf(" %d %d", t_pid, val);
+            scanf("%d", t_pid);
+            scanf("%d", val);
             newSemaphore(t_pid, val);
                 break;
             case 'P':
