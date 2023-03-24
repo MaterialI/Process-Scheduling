@@ -408,4 +408,42 @@ void Procinfo(int id){
          return;
          }
 }
+}
 
+
+
+
+// T
+
+void Totalinfo(){
+    printf("Process Status is : %d\n" , Current_Running->processState);        
+         printf("Process Prioriy is : %d\n", Current_Running->processPriority);
+
+         Print_Queue(pHigh); Print_Queue(pNorm); Print_Queue(pLow);
+         Print_Queue(pReceive); Print_Queue(pSend);
+}
+
+
+
+
+
+// Helper function to print the values in queue 
+
+void print_queue(List* pList){
+       List_first(pList);
+        Node* current = pList->pCurrentNode;
+    if(current == NULL){return NULL;}
+
+    while (current)
+    {   Process* toPrint = current->pItem;
+        
+           if(toPrint != NULL){
+             printf("Process Status is : %d\n" , toPrint->processState);        
+         printf("Process Prioriy is : %d\n",toPrint->processPriority);
+         }
+          current = current->pNext;
+    }
+ 
+    pList->pCurrentNode = LIST_OOB_END;
+    
+}
