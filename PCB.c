@@ -322,3 +322,17 @@ void receiveProcess()
     }
 }
 
+bool replyProcess(int sPID, char* msg)
+{
+    Process* sender = search_By_ID(pSend, sPID);
+    if(sender == 0)
+    {
+        printf("Reply was unsuccessful, none send process was found with pid:%d", sPID);
+        return 0;
+    }
+    printf("The message was received by %d, from %d, the message\n%s", sender->PID, Current_Running->PID, msg);
+    sender->processState = Ready;
+    put_aProcess(sender);
+    return 1;
+}
+

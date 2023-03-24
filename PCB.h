@@ -76,5 +76,16 @@ bool pcb_Count();
 //print the scheduling info
 void sendProcess(int, char*);
 
+
+//R
+//receive process
+//if finds corresponding send, receives message
+//else gets blocked until send
 void receiveProcess();
+
+// Y
+//pass sender pid, reply message
+//if didn't found in send list operation unsuccessful 
+//else releases blocked on send process
+bool replyProcess(int, char*);
 #endif
