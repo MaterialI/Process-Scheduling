@@ -39,7 +39,12 @@ int main(){
 
     printf("Welocme to the Shift it Shift0.1 Operating System\n\n");
         
-    printf( "\n\nCOMMANDS"
+    
+        
+    	while(1)
+	{
+
+        printf( "\n\nCOMMANDS"
 		 "\nC. Create"
 		 "\nF. Fork"
 		"\nK. Kill"
@@ -52,18 +57,9 @@ int main(){
         "\nP. Sempahore P"
         "\nV. Sempahore V"
         "\nI. Procinfo"
-        "\nT. Totalinfo"
+        "\nT. Totalinfo\n"
          );
-        
-    	while(1)
-	{
 
-        Process* fir = createProcess(0);
-        Process* sec = createProcess(1);
-        Process* thr = createProcess(2);
-        char* msg = malloc(sizeof(char)*100);
-        Totalinfo();
-        
         display_OS_Info();
        printf("\n\nEnter your command:\n");
        char user_input;
@@ -72,7 +68,7 @@ int main(){
 		switch(user_input)	{
 			case 'C':
                 // Code for Create
-            
+                printf("Enter pid for the process\n");
                 scanf("%d", &pr);
                 createProcess(pr);
 				break;
@@ -83,7 +79,8 @@ int main(){
                 break;
 
 			case 'K':
-            // Code for Kill   
+            // Code for Kill
+            printf("Enter pid for the process to be killed\n");   
             scanf("%d", &pr);
              killProcess(pr);
                 break;

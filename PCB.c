@@ -185,14 +185,19 @@ Process* search_By_ID(List* pList , int PID){
 
     while (current)
     {   Process* toCompare = current->pItem;
-        if(comparePCB(toCompare->PID , PID) == true){
-            printf("Found a match !!!!!!!!\n"); // Debegiing 
-            pList->pCurrentNode = current;
-            return List_remove(pList);
+        if(current->pItem == 0)
+        {
+            break;
         }
-        else {
-            current = current->pNext;
-        }
+
+    if(comparePCB(toCompare->PID , PID) == true){
+        printf("Found a match !!!!!!!!\n"); // Debegiing 
+        pList->pCurrentNode = current;
+        return List_remove(pList);
+    }
+    else {
+        current = current->pNext;
+    }
     }
     
     printf("No Match Found !!!!!!!!!!!\n"); // Debugginf 
