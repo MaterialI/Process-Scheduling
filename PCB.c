@@ -165,15 +165,15 @@ int  quantumProcess(){
     }
 
     Process* pCurrent = Current_Running;
-    Current_Running = 0;
-    get_Next_Process();
     put_aProcess(pCurrent);
+    get_Next_Process();
+    
    
     //********** 
     // if(pCurrent->PID == High){List_append(pHigh , pCurrent);}
     // else if(pCurrent->PID == Medium){List_append(pNorm , pCurrent);} //Put this in a function 
     // else if(pCurrent->PID == Low){List_append(pLow , pCurrent);}
-    //put_aProcess(pCurrent);
+    
     //****************************
     return 0;
 }
@@ -246,7 +246,39 @@ void get_Next_Process(){
         Current_Running =  List_remove(pLow);
         Current_Running->processState = Running;
     }
+    
     else {Current_Running = init;}
+    
+}
+void get_Next_ProcessC(){
+    if(pHigh->count != 0){
+        List_last(pHigh);
+        Current_Running->processState = Ready;
+        List_append(pHigh, Current_Running);
+        List_first(pHigh);
+        Current_Running = List_remove(pHigh);
+        Current_Running->processState = Running;
+    }
+    else if (pNorm->count != 0) {
+        List_last(pNorm);
+        Current_Running->processState = Ready;
+        List_append(pNorm, Current_Running);
+        List_first(pNorm);
+        Current_Running = List_remove(pNorm);
+        Current_Running->processState = Running;
+    }
+    else if(pLow->count!= 0){
+        List_last(pLow);
+        Current_Running->processState = Ready;
+        List_append(pLow, Current_Running);
+        List_first(pLow);
+        Current_Running =  List_remove(pLow);
+        Current_Running->processState = Running;
+    }
+    else {Current_Running = init;}
+    printf("Hi %d\n", pHigh->count);
+    printf("Norm %d\n", pNorm->count);
+    printf("Lo %d\n", pLow->count);
 }
 
 bool put_aProcess(Process* pr)
@@ -337,5 +369,43 @@ bool replyProcess(int sPID, char* msg)
     sender->processState = Ready;
     put_aProcess(sender);
     return 1;
+}
+
+
+//I 
+void Procinfo(int id){
+
+    // Case 0: 
+    if(Current_Running->PID == id){
+         printf("Process Status is : %d\n" , Current_Running->processState);        
+         printf("Process Prioriy is : %d\n", Current_Running->processPriority);
+        return  ;
+    }
+
+    // Case 1 Process is on the ready queus 
+     Process* pCurrent = search_By_ID(pHigh , PID); 
+    
+    if (pCurrent == NULL){pCurrent = search_By_ID(pNorm , PID);}  // To Do Put this code in a routine        
+    if(pCurrent == NULL){pCurrent =search_By_ID(pLow , PID);}
+
+
+    if(pCurrent != NULL){
+         printf("Process Status is : %d\n" , pCurrent->processState);        
+         printf("Process Prioriy is : %d\n", pCurrent->processPriority);
+        return  ;
+    }
+     //********************************
+    // Case 2 : if the process is on the Blocked Queues 
+    else{
+
+        //***********************
+          pCurrent = search_By_ID(pReceive , PID); 
+         if (pCurrent == NULL){pCurrent = search_By_ID(pSend , PID);}
+
+         if(pCurrent != NULL){
+             printf("Process Status is : %d\n" , pCurrent->processState);        
+         printf("Process Prioriy is : %d\n", pCurrent->processPriority);
+         return;
+         }
 }
 
