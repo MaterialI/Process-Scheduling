@@ -256,17 +256,17 @@ bool put_aProcess(Process* pr)
         return;
     }
     int success = 1;
-    if(pr->PID == 0)
+    if(pr->processPriority == 0)
     {
         success*=List_append(pHigh, pr);
         pr->processState = Ready;
     }
-    if(pr->PID == 1)
+    if(pr->processPriority == 1)
     {
         success*= List_append(pNorm, pr);
         pr->processState = Ready;
     }
-    if(pr->PID == 2)
+    if(pr->processPriority == 2)
     {
         success*= List_append(pLow, pr);
         pr->processState = Ready;
